@@ -1,13 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import SectionShell from "@/components/primitives/SectionShell";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import PlaceholderImage from "@/components/primitives/PlaceholderImage";
 import { REPO_URL } from "@/lib/siteConfig";
-
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+import { withBase } from "@/lib/withBase";
 
 type GalleryItem = { label: string; caption: string; image?: string };
 
@@ -71,13 +69,11 @@ export default function ProductReveal() {
         {gallery.map((item, i) => (
           <div key={i} className="min-w-[78%] flex-shrink-0 sm:min-w-[58%] md:min-w-[42%] lg:min-w-[34%]">
             {item.image ? (
-              <div className="relative aspect-[4/5] overflow-hidden rounded-card border border-ink/8 bg-paperShadow">
-                <Image
-                  src={`${BASE_PATH}/assets/${item.image}`}
+              <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-card border border-ink/8 bg-paperShadow">
+                <img
+                  src={withBase(`/assets/${item.image}`)}
                   alt={item.label}
-                  fill
-                  sizes="(max-width: 768px) 78vw, 34vw"
-                  className="object-contain p-6"
+                  className="h-full w-full select-none object-contain p-6"
                 />
                 <div className="absolute left-4 top-4 mono-caps text-inkMuted/70">{item.caption}</div>
               </div>

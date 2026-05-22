@@ -1,14 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import CTAPrimary from "@/components/primitives/CTAPrimary";
 import CTAGhost from "@/components/primitives/CTAGhost";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import OpenPawWordmark from "@/components/primitives/OpenPawWordmark";
 import { REPO_URL, SHIP_DATE } from "@/lib/siteConfig";
-
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+import { withBase } from "@/lib/withBase";
 
 type Props = {
   onReserveClick: () => void;
@@ -75,16 +73,11 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
 
           {/* Right — hero render (real PawMe robot mockup, no dog) */}
           <div className="relative flex items-center justify-center">
-            <div className="relative h-[460px] w-full max-w-[520px] md:h-[560px]">
-              <Image
-                src={`${BASE_PATH}/assets/bot-left.png`}
-                alt="OpenPaw robot — front three-quarter view"
-                fill
-                priority
-                sizes="(max-width: 1024px) 90vw, 520px"
-                className="object-contain"
-              />
-            </div>
+            <img
+              src={withBase("/assets/bot-left.png")}
+              alt="OpenPaw robot — front three-quarter view"
+              className="h-auto w-full max-w-[520px] select-none drop-shadow-[0_24px_48px_rgba(14,30,46,0.18)]"
+            />
           </div>
         </div>
 
