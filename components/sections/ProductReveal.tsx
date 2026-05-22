@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import SectionShell from "@/components/primitives/SectionShell";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import PlaceholderImage from "@/components/primitives/PlaceholderImage";
@@ -27,7 +27,7 @@ const stats: Stat[] = [
 
 function StatTile({ stat }: { stat: Stat }) {
   return (
-    <div className="rounded-card border border-ink/8 bg-paper p-6 shadow-card">
+    <div className="rounded-card border border-ink/8 bg-paper p-6 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:shadow-cardHover">
       <div className="font-display text-[40px] font-700 leading-none tracking-tight text-ink md:text-[44px]">
         {/* COPY: directional, owner=Sandy */}
         {stat.value}
@@ -44,30 +44,58 @@ function StatTile({ stat }: { stat: Stat }) {
 }
 
 export default function ProductReveal() {
+  const reduced = useReducedMotion() ?? false;
+
   return (
     <SectionShell id="product">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr,1fr] md:items-end md:gap-12">
         <header>
-          <EyebrowLabel className="mb-5">
-            OPEN HARDWARE / OPEN FIRMWARE / OPEN COMMUNITY
-          </EyebrowLabel>
-          <h2 className="font-display text-display-xl font-700 text-ink">
+          <motion.div
+            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 10 }}
+            whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+            transition={{ duration: 0.5 }}
+          >
+            <EyebrowLabel className="mb-5">
+              OPEN HARDWARE / OPEN FIRMWARE / OPEN COMMUNITY
+            </EyebrowLabel>
+          </motion.div>
+          <motion.h2
+            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
+            whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+            transition={{ duration: 0.55, delay: 0.08 }}
+            className="font-display text-display-xl font-700 text-ink"
+          >
             {/* COPY: directional, owner=Sandy */}
             A 5-inch desktop companion. Every byte of it is yours to rewrite.
-          </h2>
+          </motion.h2>
         </header>
-        <p className="font-body text-[17px] leading-[1.6] text-inkMuted md:max-w-[480px] md:justify-self-end">
+        <motion.p
+          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
+          whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+          transition={{ duration: 0.55, delay: 0.16 }}
+          className="font-body text-[17px] leading-[1.6] text-inkMuted md:max-w-[480px] md:justify-self-end"
+        >
           {/* COPY: directional, owner=Sandy */}
           OpenPaw is a fully assembled robot you can use out of the box — and a
           published hardware platform (BOM, STEP files, PCB schematics, firmware
           source) you can fork, mod, and reprint.
-        </p>
+        </motion.p>
       </div>
 
       {/* Gallery */}
       <div className="snap-gallery mt-12 flex gap-5 overflow-x-auto px-1 pb-3 md:mt-16">
         {gallery.map((item, i) => (
-          <div key={i} className="min-w-[78%] flex-shrink-0 sm:min-w-[58%] md:min-w-[42%] lg:min-w-[34%]">
+          <motion.div
+            key={i}
+            initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
+            whileInView={reduced ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "0px 0px -5% 0px" }}
+            transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            className="min-w-[78%] flex-shrink-0 sm:min-w-[58%] md:min-w-[42%] lg:min-w-[34%]"
+          >
             {item.image ? (
               <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-card border border-ink/8 bg-paperShadow">
                 <img
@@ -86,7 +114,7 @@ export default function ProductReveal() {
                 rounded="card"
               />
             )}
-          </div>
+          </motion.div>
         ))}
       </div>
 

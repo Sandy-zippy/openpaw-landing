@@ -6,6 +6,7 @@ import ProblemStrip from "@/components/sections/ProblemStrip";
 import ProductReveal from "@/components/sections/ProductReveal";
 import SensorMap from "@/components/sections/SensorMap";
 import SDKPlayground from "@/components/sections/SDKPlayground";
+import FoundersStory from "@/components/sections/FoundersStory";
 import CommunityRoadmap from "@/components/sections/CommunityRoadmap";
 import PricingTable from "@/components/sections/PricingTable";
 import VIPGate from "@/components/sections/VIPGate";
@@ -26,6 +27,7 @@ export default function Home() {
       <ProductReveal />
       <SensorMap />
       <SDKPlayground />
+      <FoundersStory />
       <CommunityRoadmap />
       <PricingTable onReserveClick={scrollToVIP} />
       <VIPGate />

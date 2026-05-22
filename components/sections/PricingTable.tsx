@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import SectionShell from "@/components/primitives/SectionShell";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import CTAPrimary from "@/components/primitives/CTAPrimary";
@@ -68,18 +71,32 @@ type Props = {
   onReserveClick: () => void;
 };
 
-function TierCard({ tier, onReserveClick }: { tier: Tier; onReserveClick: () => void }) {
+function TierCard({
+  tier,
+  onReserveClick,
+  reduced,
+}: {
+  tier: Tier;
+  onReserveClick: () => void;
+  reduced: boolean;
+}) {
   const baseClasses =
-    "relative flex h-full flex-col rounded-card border bg-paper p-7 md:p-8";
+    "relative flex h-full flex-col rounded-card border bg-paper p-7 md:p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-cardHover";
   const visualClass = tier.highlighted
-    ? "border-lime shadow-card lg:scale-[1.03]"
-    : "border-ink/10 shadow-card";
+    ? "border-lime shadow-card lg:scale-[1.03] hover:border-lime hover:shadow-[0_8px_30px_rgba(4,218,141,0.18)]"
+    : "border-ink/10 shadow-card hover:border-ink/25";
 
   return (
     <article className={`${baseClasses} ${visualClass}`}>
       {tier.ribbon && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="mono-caps rounded-pill bg-lime px-3 py-1 text-ink">{tier.ribbon}</span>
+          <span
+            className={`mono-caps rounded-pill px-3 py-1 text-ink ${
+              reduced ? "bg-lime" : "ribbon-sweep"
+            }`}
+          >
+            {tier.ribbon}
+          </span>
         </div>
       )}
 
@@ -123,9 +140,24 @@ function TierCard({ tier, onReserveClick }: { tier: Tier; onReserveClick: () => 
 }
 
 export default function PricingTable({ onReserveClick }: Props) {
+  const reduced = useReducedMotion() ?? false;
+  // Order tiers visually (Kickstarter / VIP / Retail) so the stagger reads
+  // left-to-right on lg. VIP card is index 1 (the center column).
+  const ordered: Array<{ tier: Tier; orderClass: string }> = [
+    { tier: tiers[1], orderClass: "lg:order-1" },
+    { tier: tiers[0], orderClass: "lg:order-2" },
+    { tier: tiers[2], orderClass: "lg:order-3" },
+  ];
+
   return (
     <SectionShell id="pricing">
-      <header className="mx-auto max-w-[760px] text-center">
+      <motion.header
+        initial={reduced ? { opacity: 0 } : { opacity: 0, y: 12 }}
+        whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+        transition={{ duration: 0.55 }}
+        className="mx-auto max-w-[760px] text-center"
+      >
         <EyebrowLabel className="mb-5 justify-center">PRICING</EyebrowLabel>
         <h2 className="font-display text-display-xl font-700 text-ink">
           {/* COPY: directional, owner=Sandy */}
@@ -136,19 +168,21 @@ export default function PricingTable({ onReserveClick }: Props) {
           Lock your unit now. Ship target: December 2026. Full refund any time
           before manufacturing tooling begins (Aug 2026).
         </p>
-      </header>
+      </motion.header>
 
       <div className="mt-16 grid grid-cols-1 gap-6 md:gap-7 lg:grid-cols-3 lg:items-stretch">
-        {/* VIP card goes first on lg, but we want it middle visually */}
-        <div className="lg:order-2">
-          <TierCard tier={tiers[0]} onReserveClick={onReserveClick} />
-        </div>
-        <div className="lg:order-1">
-          <TierCard tier={tiers[1]} onReserveClick={onReserveClick} />
-        </div>
-        <div className="lg:order-3">
-          <TierCard tier={tiers[2]} onReserveClick={onReserveClick} />
-        </div>
+        {ordered.map(({ tier, orderClass }, i) => (
+          <motion.div
+            key={tier.name}
+            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 18, scale: 0.96 }}
+            whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "0px 0px -6% 0px" }}
+            transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className={orderClass}
+          >
+            <TierCard tier={tier} onReserveClick={onReserveClick} reduced={reduced} />
+          </motion.div>
+        ))}
       </div>
 
       {/* Trust strip */}
