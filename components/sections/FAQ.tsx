@@ -32,23 +32,24 @@ const items: QA[] = [
     ),
   },
   {
-    q: "Why a robot — can't a smart speaker do this?",
+    q: "Why a robot — can't I just use ChatGPT?",
     a: (
       <>
         {/* COPY: directional, owner=Sandy */}
-        Speakers don't move, can't see, and can't follow your pet from room to
-        room. OpenPaw can. The whole point is presence — a thing that shares
-        the space your pet lives in.
+        Cloud AI lives in a tab. OpenPaw lives in your room. It sees, listens, and
+        runs entirely on-device — no subscription, no surveillance, just an AI
+        that's actually present.
       </>
     ),
   },
   {
-    q: "Will it work with my cat?",
+    q: "What can it actually do out of the box?",
     a: (
       <>
         {/* COPY: directional, owner=Sandy */}
-        Yes. Behaviors ship for dogs, cats, and small mammals. Birds and reptiles
-        are on the community roadmap.
+        Twelve behaviors ship pre-installed: greet on presence, ambient mood
+        loops, voice query (on-device LLM), reminders, journal mode, music sync,
+        and more. Coding unlocks the next 100.
       </>
     ),
   },

@@ -10,18 +10,18 @@ type Tok = { v: string; c?: string };
 const code: Tok[][] = [
   [{ v: "from", c: "kw" }, { v: " openpaw " }, { v: "import", c: "kw" }, { v: " Robot, listen" }],
   [{ v: "" }],
-  [{ v: "paw = Robot(name=" }, { v: '"Mochi"', c: "str" }, { v: ")" }],
+  [{ v: "bot = Robot()" }],
   [{ v: "" }],
-  [{ v: "@listen", c: "dec" }, { v: ".for_phrase(" }, { v: '"Mochi"', c: "str" }, { v: ")" }],
+  [{ v: "@listen", c: "dec" }, { v: ".for_phrase(" }, { v: '"hey"', c: "str" }, { v: ")" }],
   [{ v: "def", c: "kw" }, { v: " greet(ctx):" }],
   [{ v: "    " }, { v: "if", c: "kw" }, { v: " ctx.confidence > " }, { v: "0.7", c: "num" }, { v: ":" }],
-  [{ v: "        paw.look_toward(ctx.source)" }],
-  [{ v: "        paw.wag_tail(speed=" }, { v: "1.2", c: "num" }, { v: ", duration=" }, { v: "2.0", c: "num" }, { v: ")" }],
-  [{ v: "        paw.say(" }, { v: '"hey, you"', c: "str" }, { v: ", voice=" }, { v: '"warm"', c: "str" }, { v: ")" }],
+  [{ v: "        bot.look_toward(ctx.source)" }],
+  [{ v: "        bot.eyes_blink(pattern=" }, { v: '"warm_wave"', c: "str" }, { v: ")" }],
+  [{ v: "        bot.say(" }, { v: '"hi, i\'m here"', c: "str" }, { v: ", voice=" }, { v: '"warm"', c: "str" }, { v: ")" }],
   [{ v: "    " }, { v: "else", c: "kw" }, { v: ":" }],
-  [{ v: "        paw.tilt_head()" }],
+  [{ v: "        bot.tilt_head()" }],
   [{ v: "" }],
-  [{ v: "paw.run()" }],
+  [{ v: "bot.run()" }],
 ];
 
 const colorMap: Record<string, string> = {
@@ -73,7 +73,7 @@ export default function SDKPlayground() {
               <span className="h-2.5 w-2.5 rounded-full bg-paper/15" />
               <span className="h-2.5 w-2.5 rounded-full bg-paper/15" />
               <span className="h-2.5 w-2.5 rounded-full bg-paper/15" />
-              <span className="ml-3 font-mono text-[12px] text-paper/60">behaviors/wag_on_call.py</span>
+              <span className="ml-3 font-mono text-[12px] text-paper/60">behaviors/greet_on_phrase.py</span>
             </div>
             <span className="mono-caps text-paper/40">Python</span>
           </div>

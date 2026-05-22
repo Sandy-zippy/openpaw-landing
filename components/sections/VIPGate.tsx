@@ -22,12 +22,12 @@ const microTestimonials: Micro[] = [
   // {/* COPY: directional, owner=Sandy */}
   // TODO: replace with real VIP-list quotes once VIP gate has real signups
   {
-    quote: "Finally an open hardware companion my cat won't ignore.",
+    quote: "Finally an open-source AI you can actually hold.",
     name: "Mira K.",
     city: "Berlin",
   },
   {
-    quote: "Wanted Reachy Mini for my dog. This is exactly that.",
+    quote: "Wanted Reachy Mini for my desk. This is exactly that.",
     name: "Alex T.",
     city: "Brooklyn",
   },

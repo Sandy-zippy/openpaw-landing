@@ -2,7 +2,7 @@
 // whole site in one place. Everything user-visible should pull from here.
 
 export const PROJECT_NAME = "OpenPaw";       // change this one line to rename
-export const PROJECT_TAGLINE = "The open-source pet companion robot";
+export const PROJECT_TAGLINE = "The open-source AI companion";
 export const DOMAIN = "openpaw.io";           // TBD — placeholder
 export const SUPPORT_EMAIL = "hi@openpaw.io"; // TBD — placeholder
 export const KICKSTARTER_LAUNCH_DATE = "2026-07-07";
@@ -28,11 +28,11 @@ export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? ""; // TOD
 export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID ?? ""; // TODO Sandy: reuse wmeree76xu from PawMe, or new?
 export const EVENTS_WEBHOOK_URL = process.env.NEXT_PUBLIC_EVENTS_WEBHOOK_URL ?? ""; // TODO Sandy: reuse pawme n8n webhook, or new endpoint?
 
-// Pricing — locked May 22, 2026 pivot
+// Pricing — locked May 22, 2026 pivot. Deposit hard-dropped from $5 → $1.
 export const PRICING = {
   vipEarlyBird: 189,
-  vipDeposit: 5,
-  vipRemainder: 184,
+  vipDeposit: 1,
+  vipRemainder: 188,
   vipLimit: 500,
   vipClaimed: 247, // TODO Sandy: wire live count via API or daily snapshot
   kickstarterEarlyBird: 250,

@@ -54,18 +54,18 @@ function PhonePlusHardwareDiagram() {
 const blocks: Block[] = [
   {
     icon: <CameraVsRobotDiagram />,
-    title: "They live in the room with you.",
-    body: "A Wi-Fi camera films from a corner. A companion shares the space — moves, listens, responds.",
+    title: "AI in the room, not in a server farm.",
+    body: "Cloud assistants forget you the moment the tab closes. OpenPaw runs on-device — it sees, listens, and remembers, locally, in the room with you.",
   },
   {
     icon: <HealthSignalDiagram />,
-    title: "Health doesn't wait for the vet visit.",
-    body: "OpenPaw runs on-device vision and audio. It notices the limp, the cough, the unusual silence at 3am.",
+    title: "On-device. Always-on. Yours.",
+    body: "Vision, audio, and a Gemma-class language model all run on the robot. No subscription. No mic pointed at someone else's data center.",
   },
   {
     icon: <PhonePlusHardwareDiagram />,
-    title: "The phone app is only half the answer.",
-    body: "We built the PawMe app (photo onboarding, vaccination scan, vet finder, AI symptom check) — and watched owners hit a ceiling. The ceiling is hardware.",
+    title: "Open hardware in a world of closed AI.",
+    body: "Humane, Rabbit, Friend — every consumer AI device this year shipped locked. We open every byte: firmware, schematics, BOM, the lot.",
   },
 ];
 
@@ -75,7 +75,7 @@ export default function ProblemStrip() {
       <header className="mx-auto max-w-[760px] text-center">
         <h2 className="font-display text-display-xl font-700 text-ink">
           {/* COPY: directional, owner=Sandy */}
-          A camera watches. A robot belongs.
+          Phones forget. Robots remember.
         </h2>
       </header>
 
