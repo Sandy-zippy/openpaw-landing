@@ -22,8 +22,9 @@ const config: Config = {
       fontSize: {
         // Eyebrow/mono caps
         "eyebrow": ["11px", { lineHeight: "1.4", letterSpacing: "0.14em" }],
-        // Hero-scale fluid
-        "hero": ["clamp(44px, 5.6vw, 80px)", { lineHeight: "1.04", letterSpacing: "-0.025em" }],
+        // Hero-scale fluid. Mobile floor tuned to 40px so the line break reads
+        // punchier on 390px width without overflowing two-word combinations.
+        "hero": ["clamp(40px, 9vw, 80px)", { lineHeight: "1.02", letterSpacing: "-0.028em" }],
         "display-xl": ["clamp(40px, 5.5vw, 72px)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
         "display-lg": ["clamp(32px, 4vw, 52px)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
         "display-md": ["clamp(24px, 3vw, 36px)", { lineHeight: "1.15", letterSpacing: "-0.015em" }],

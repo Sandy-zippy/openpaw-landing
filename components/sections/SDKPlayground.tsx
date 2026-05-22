@@ -205,9 +205,17 @@ export default function SDKPlayground() {
                 reduced ? "" : "sdk-float"
               }`}
             >
-              <img
-                src={withBase("/assets/generated/sdk-demo.png")}
-                alt="OpenPaw robot beside a laptop showing code in an editor"
+              {/* Behavior loop video — auto-plays, loops, mutes for mobile. Falls
+                  back to the still poster image if video can't load. */}
+              <video
+                src={withBase("/assets/generated/sdk-behavior-loop.mp4")}
+                poster={withBase("/assets/generated/sdk-demo.png")}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label="OpenPaw robot performing a greeting behavior"
                 className="h-full w-full select-none object-cover"
               />
             </div>

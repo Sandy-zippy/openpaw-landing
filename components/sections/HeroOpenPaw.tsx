@@ -47,7 +47,7 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
         </a>
       </div>
 
-      <div className="relative mx-auto w-full max-w-shell px-6 pb-20 pt-16 md:px-10 md:pb-28 md:pt-24">
+      <div className="relative mx-auto w-full max-w-shell px-6 pb-14 pt-12 md:px-10 md:pb-28 md:pt-24">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.05fr,0.95fr] lg:gap-16">
           {/* Left — copy column */}
           <div>
@@ -78,7 +78,7 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
 
             <motion.div
               {...appear(0.28)}
-              className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
+              className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 [&>*]:w-full sm:[&>*]:w-auto"
             >
               <CTAPrimary onClick={onReserveClick} ariaLabel="Reserve VIP unit for $1 deposit">
                 Reserve VIP — $1 deposit →
@@ -106,23 +106,28 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
         <ScrollHint />
       </div>
 
-      {/* Ambient corner glow — restrained, sits behind everything */}
+      {/* Ambient corner glows — restrained, sit behind everything.
+          On mobile the glows live inside this clipped wrapper so they can't
+          extend the section's scrollWidth past the viewport. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-32 -top-32 h-[520px] w-[520px] rounded-full opacity-60 blur-3xl"
-        style={{
-          background:
-            "radial-gradient(closest-side, rgba(4,218,141,0.18), rgba(4,218,141,0) 70%)",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-40 bottom-0 h-[420px] w-[420px] rounded-full opacity-50 blur-3xl"
-        style={{
-          background:
-            "radial-gradient(closest-side, rgba(0,133,255,0.10), rgba(0,133,255,0) 70%)",
-        }}
-      />
+        className="pointer-events-none absolute inset-0 overflow-hidden lg:overflow-visible"
+      >
+        <div
+          className="absolute -right-20 -top-20 h-[320px] w-[320px] rounded-full opacity-60 blur-3xl md:-right-32 md:-top-32 md:h-[520px] md:w-[520px]"
+          style={{
+            background:
+              "radial-gradient(closest-side, rgba(4,218,141,0.18), rgba(4,218,141,0) 70%)",
+          }}
+        />
+        <div
+          className="absolute -left-24 bottom-0 h-[260px] w-[260px] rounded-full opacity-50 blur-3xl md:-left-40 md:h-[420px] md:w-[420px]"
+          style={{
+            background:
+              "radial-gradient(closest-side, rgba(0,133,255,0.10), rgba(0,133,255,0) 70%)",
+          }}
+        />
+      </div>
     </section>
   );
 }
@@ -145,9 +150,10 @@ function ProductStage({ reduceMotion }: { reduceMotion: boolean }) {
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.9, ease, delay: 0.35 }}
-      className="relative flex items-center justify-center"
+      className="relative mx-auto flex w-full max-w-[420px] items-center justify-center overflow-hidden md:max-w-none lg:overflow-visible"
     >
-      {/* Halo glow — sits behind the product, soft breathing scale */}
+      {/* Halo glow — sits behind the product, soft breathing scale.
+          Scaled down on mobile so it fits inside the viewport even after blur. */}
       <motion.div
         aria-hidden="true"
         className="absolute inset-0 mx-auto h-full w-full"
@@ -159,7 +165,7 @@ function ProductStage({ reduceMotion }: { reduceMotion: boolean }) {
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       >
         <div
-          className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+          className="absolute left-1/2 top-1/2 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl md:h-[420px] md:w-[420px]"
           style={{
             background:
               "radial-gradient(closest-side, rgba(4,218,141,0.32), rgba(4,218,141,0) 65%)",
@@ -167,11 +173,13 @@ function ProductStage({ reduceMotion }: { reduceMotion: boolean }) {
         />
       </motion.div>
 
-      {/* Orbital ring — slow rotation, dashed perimeter, accent node */}
+      {/* Orbital ring — slow rotation, dashed perimeter, accent node.
+          Mobile size accounts for the rotated bounding box (≈√2× the side
+          length), so 240px stays under the 340px viewport-minus-padding budget. */}
       <motion.svg
         aria-hidden="true"
         viewBox="0 0 600 600"
-        className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 max-w-[92vw]"
+        className="absolute left-1/2 top-1/2 h-[240px] w-[240px] -translate-x-1/2 -translate-y-1/2 md:h-[520px] md:w-[520px]"
         animate={reduceMotion ? undefined : { rotate: 360 }}
         transition={{ duration: 48, repeat: Infinity, ease: "linear" }}
       >
@@ -206,7 +214,7 @@ function ProductStage({ reduceMotion }: { reduceMotion: boolean }) {
         <img
           src={withBase("/assets/generated/hero-alt.png")}
           alt="OpenPaw — three-quarter render with teal LED eyes"
-          className="relative z-10 h-auto w-full max-w-[520px] select-none drop-shadow-[0_24px_48px_rgba(14,30,46,0.18)]"
+          className="relative z-10 mx-auto h-auto w-[78vw] max-w-[360px] select-none drop-shadow-[0_24px_48px_rgba(14,30,46,0.18)] md:w-full md:max-w-[520px]"
         />
 
         {/* Optional video overlay — if hero-loop.mp4 exists it plays on top of

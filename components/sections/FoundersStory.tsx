@@ -264,16 +264,27 @@ export default function FoundersStory() {
       </header>
 
       {/* Pivot timeline — horizontal scroll-snap on mobile, 3 columns on md+ */}
-      <div className="snap-gallery mt-14 flex gap-5 overflow-x-auto px-1 pb-3 md:mt-16 md:grid md:grid-cols-3 md:gap-7 md:overflow-visible md:px-0 md:pb-0">
-        {timeline.map((step, i) => (
-          <TimelineCard
-            key={step.date}
-            step={step}
-            index={i}
-            isLast={i === timeline.length - 1}
-            reduced={reduced}
-          />
-        ))}
+      <div className="relative mt-14 md:mt-16">
+        <div className="snap-gallery flex gap-5 overflow-x-auto px-1 pb-3 [mask-image:linear-gradient(to_right,transparent_0,black_16px,black_calc(100%-32px),transparent_100%)] md:grid md:grid-cols-3 md:gap-7 md:overflow-visible md:px-0 md:pb-0 md:[mask-image:none]">
+          {timeline.map((step, i) => (
+            <TimelineCard
+              key={step.date}
+              step={step}
+              index={i}
+              isLast={i === timeline.length - 1}
+              reduced={reduced}
+            />
+          ))}
+        </div>
+        {/* Scroll affordance — small mono caption that invites a drag */}
+        <div
+          aria-hidden="true"
+          className="mono-caps mt-4 flex items-center justify-center gap-2 text-inkMuted md:hidden"
+        >
+          <span>←</span>
+          <span>DRAG</span>
+          <span>→</span>
+        </div>
       </div>
 
       {/* Founder triptych */}

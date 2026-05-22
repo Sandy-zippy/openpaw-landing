@@ -118,7 +118,7 @@ function NewsletterMini() {
 export default function Footer() {
   return (
     <footer className="border-t border-ink/12 bg-paper">
-      <div className="mx-auto w-full max-w-shell px-6 py-16 md:px-10 md:py-20">
+      <div className="mx-auto w-full max-w-shell px-6 pb-28 pt-16 md:px-10 md:py-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.1fr,2.2fr,1.2fr]">
           {/* Left: wordmark + locale */}
           <div>

@@ -9,6 +9,7 @@ import SDKPlayground from "@/components/sections/SDKPlayground";
 import FoundersStory from "@/components/sections/FoundersStory";
 import CommunityRoadmap from "@/components/sections/CommunityRoadmap";
 import PricingTable from "@/components/sections/PricingTable";
+import AmbientBreak from "@/components/sections/AmbientBreak";
 import VIPGate from "@/components/sections/VIPGate";
 import FAQ from "@/components/sections/FAQ";
 import Footer from "@/components/sections/Footer";
@@ -30,6 +31,7 @@ export default function Home() {
       <FoundersStory />
       <CommunityRoadmap />
       <PricingTable onReserveClick={scrollToVIP} />
+      <AmbientBreak />
       <VIPGate />
       <FAQ />
       <Footer />

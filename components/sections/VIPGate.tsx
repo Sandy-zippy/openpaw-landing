@@ -181,8 +181,8 @@ export default function VIPGate() {
   return (
     <SectionShell id="vip">
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.05fr,0.95fr] lg:gap-14">
-        {/* Form column */}
-        <div>
+        {/* Form column — order-2 on mobile so the counter (social proof) leads */}
+        <div className="order-2 lg:order-1">
           <EyebrowLabel tone="lime" className="mb-5">RESERVE YOUR UNIT</EyebrowLabel>
           <h2 className="font-display text-display-xl font-700 text-ink">
             {/* COPY: directional, owner=Sandy */}
@@ -243,8 +243,10 @@ export default function VIPGate() {
           </form>
         </div>
 
-        {/* Counter column */}
-        <VIPCounter claimed={PRICING.vipClaimed} total={PRICING.vipLimit} />
+        {/* Counter column — order-1 on mobile so it appears above the form */}
+        <div className="order-1 lg:order-2">
+          <VIPCounter claimed={PRICING.vipClaimed} total={PRICING.vipLimit} />
+        </div>
       </div>
     </SectionShell>
   );
