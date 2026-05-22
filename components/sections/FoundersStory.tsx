@@ -74,9 +74,8 @@ const founders: Founder[] = [
     role: "Product + Design",
     bio:
       "Owns the product surface and the industrial design. Why every curve has a reason.",
-    // {/* TODO Sandy: real Prithu photo (LinkedIn was auth-walled) */}
-    monogram: "PH",
-    twitter: "https://twitter.com/openpaw",
+    photo: "founder-prithu.jpg",
+    twitter: "https://twitter.com/prithuhazarika",
     github: "https://github.com/openpaw",
   },
 ];
