@@ -12,8 +12,8 @@ type GalleryItem = { label: string; caption: string; image?: string };
 const gallery: GalleryItem[] = [
   { label: "Front view — matrix-LED eyes", caption: "01 / Front", image: "bot-left.png" },
   { label: "Side view — wheel + chassis", caption: "02 / Side", image: "bot-right.png" },
-  { label: "Top-down — speaker grille + sensor array", caption: "03 / Top" },
-  { label: "Desk scale — beside a coffee mug", caption: "04 / Scale" },
+  { label: "Top-down — mic + sensor array", caption: "03 / Top", image: "generated/gallery-top.png" },
+  { label: "Desk scale — beside a ceramic mug", caption: "04 / Scale", image: "generated/gallery-scale.png" },
 ];
 
 type Stat = { value: string; unit?: string; label: string; small?: string };

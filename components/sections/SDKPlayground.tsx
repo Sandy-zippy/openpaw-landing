@@ -1,6 +1,7 @@
 import SectionShell from "@/components/primitives/SectionShell";
 import ChipTag from "@/components/primitives/ChipTag";
 import PlaceholderImage from "@/components/primitives/PlaceholderImage";
+import { withBase } from "@/lib/withBase";
 
 // Tokenized Python code rendered server-side. We do this by hand instead of
 // pulling in prism-react-renderer just to keep the dep graph tight.
@@ -86,15 +87,15 @@ export default function SDKPlayground() {
           </div>
         </div>
 
-        {/* Video — 40% */}
+        {/* Demo image — 40% */}
         <div className="flex flex-col">
-          <PlaceholderImage
-            label="4s loop — robot turns to camera, wags, says hey"
-            caption="autoplay · loop · silent"
-            aspectRatio="4/5"
-            showPlay
-            tone="paperShadow"
-          />
+          <div className="relative aspect-[4/5] overflow-hidden rounded-card border border-ink/8 bg-paperShadow">
+            <img
+              src={withBase("/assets/generated/sdk-demo.png")}
+              alt="OpenPaw robot beside a laptop showing code in an editor"
+              className="h-full w-full select-none object-cover"
+            />
+          </div>
           <p className="mt-3 font-body text-[14px] leading-[1.6] text-inkMuted">
             {/* COPY: directional, owner=Sandy */}
             The exact behavior on the left, running on real hardware.

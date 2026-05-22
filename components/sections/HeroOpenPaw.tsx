@@ -71,11 +71,11 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
             </div>
           </div>
 
-          {/* Right — hero render (real PawMe robot mockup, no dog) */}
+          {/* Right — hero render (Higgsfield-generated, no dog, no logo) */}
           <div className="relative flex items-center justify-center">
             <img
-              src={withBase("/assets/bot-left.png")}
-              alt="OpenPaw robot — front three-quarter view"
+              src={withBase("/assets/generated/hero-alt.png")}
+              alt="OpenPaw robot — three-quarter view with teal LED eyes"
               className="h-auto w-full max-w-[520px] select-none drop-shadow-[0_24px_48px_rgba(14,30,46,0.18)]"
             />
           </div>
