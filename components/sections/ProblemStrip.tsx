@@ -23,7 +23,7 @@ function CameraVsRobotDiagram({ animate }: { animate: boolean }) {
         stroke="#04DA8D"
         strokeWidth="1.5"
         strokeDasharray="2 3"
-        initial={{ pathLength: 0, opacity: 0 }}
+        initial={{ pathLength: 0, opacity: 1 }}
         animate={animate ? { pathLength: 1, opacity: 1 } : { pathLength: 1, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       />
@@ -98,7 +98,7 @@ function PhonePlusHardwareDiagram({ animate }: { animate: boolean }) {
         stroke="#04DA8D"
         strokeWidth="1.5"
         strokeDasharray="2 3"
-        initial={{ pathLength: 0, opacity: 0 }}
+        initial={{ pathLength: 0, opacity: 1 }}
         animate={animate ? { pathLength: 1, opacity: 1 } : { pathLength: 1, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.25 }}
       />
@@ -148,7 +148,7 @@ export default function ProblemStrip() {
   return (
     <SectionShell id="problem">
       <motion.header
-        initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
+        initial={reduced ? { opacity: 1 } : { opacity: 1, y: 14 }}
         whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "0px 0px -10% 0px" }}
         transition={{ duration: 0.55 }}
@@ -167,7 +167,7 @@ export default function ProblemStrip() {
         {blocks.map((b, i) => (
           <motion.article
             key={b.title}
-            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 20 }}
+            initial={reduced ? { opacity: 1 } : { opacity: 1, y: 20 }}
             whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "0px 0px -8% 0px" }}
             transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}

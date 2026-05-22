@@ -159,7 +159,7 @@ export default function SDKPlayground() {
     <SectionShell id="sdk">
       <header className="mx-auto max-w-[760px] text-center">
         <motion.h2
-          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
+          initial={reduced ? { opacity: 1 } : { opacity: 1, y: 14 }}
           whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -10% 0px" }}
           transition={{ duration: 0.55 }}
@@ -169,7 +169,7 @@ export default function SDKPlayground() {
           Teach it a new behavior in 20 lines.
         </motion.h2>
         <motion.p
-          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
+          initial={reduced ? { opacity: 1 } : { opacity: 1, y: 14 }}
           whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -10% 0px" }}
           transition={{ duration: 0.55, delay: 0.08 }}
@@ -224,7 +224,7 @@ export default function SDKPlayground() {
         {["Python SDK", "MCP-compatible", "Flash-over-USB"].map((label, i) => (
           <motion.div
             key={label}
-            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 8 }}
+            initial={reduced ? { opacity: 1 } : { opacity: 1, y: 8 }}
             whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "0px 0px -5% 0px" }}
             transition={{ duration: 0.4, delay: i * 0.08 }}

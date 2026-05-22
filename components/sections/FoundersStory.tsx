@@ -107,7 +107,7 @@ function TimelineCard({
 
   return (
     <motion.article
-      initial={reduced ? { opacity: 0 } : { opacity: 0, y: 28 }}
+      initial={reduced ? { opacity: 1 } : { opacity: 1, y: 28 }}
       whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -8% 0px" }}
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
@@ -154,7 +154,7 @@ function FounderCard({
 }) {
   return (
     <motion.article
-      initial={reduced ? { opacity: 0 } : { opacity: 0, y: 18, scale: 0.92 }}
+      initial={reduced ? { opacity: 1 } : { opacity: 1, y: 18, scale: 0.92 }}
       whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "0px 0px -8% 0px" }}
       transition={{ duration: 0.55, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
@@ -231,7 +231,7 @@ export default function FoundersStory() {
       {/* Section header */}
       <header className="mx-auto max-w-[820px] text-center">
         <motion.div
-          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 10 }}
+          initial={reduced ? { opacity: 1 } : { opacity: 1, y: 10 }}
           whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -10% 0px" }}
           transition={{ duration: 0.5 }}
@@ -241,7 +241,7 @@ export default function FoundersStory() {
           </EyebrowLabel>
         </motion.div>
         <motion.h2
-          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
+          initial={reduced ? { opacity: 1 } : { opacity: 1, y: 14 }}
           whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -10% 0px" }}
           transition={{ duration: 0.55, delay: 0.08 }}
@@ -252,7 +252,7 @@ export default function FoundersStory() {
           <br className="hidden md:block" /> Here&rsquo;s why.
         </motion.h2>
         <motion.p
-          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
+          initial={reduced ? { opacity: 1 } : { opacity: 1, y: 14 }}
           whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -10% 0px" }}
           transition={{ duration: 0.55, delay: 0.16 }}
@@ -286,7 +286,7 @@ export default function FoundersStory() {
 
       {/* Pull quote */}
       <motion.figure
-        initial={reduced ? { opacity: 0 } : { opacity: 0, y: 8 }}
+        initial={reduced ? { opacity: 1 } : { opacity: 1, y: 8 }}
         whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "0px 0px -8% 0px" }}
         transition={{ duration: 0.6 }}
@@ -310,7 +310,7 @@ export default function FoundersStory() {
       {/* Spark callouts — what we were watching that week */}
       <div className="mt-20 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
         <motion.div
-          initial={reduced ? { opacity: 0 } : { opacity: 0, x: -16 }}
+          initial={reduced ? { opacity: 1 } : { opacity: 1, x: -16 }}
           whileInView={reduced ? { opacity: 1 } : { opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "0px 0px -8% 0px" }}
           transition={{ duration: 0.55 }}
@@ -330,7 +330,7 @@ export default function FoundersStory() {
           </div>
         </motion.div>
         <motion.div
-          initial={reduced ? { opacity: 0 } : { opacity: 0, x: 16 }}
+          initial={reduced ? { opacity: 1 } : { opacity: 1, x: 16 }}
           whileInView={reduced ? { opacity: 1 } : { opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "0px 0px -8% 0px" }}
           transition={{ duration: 0.55, delay: 0.08 }}
@@ -353,7 +353,7 @@ export default function FoundersStory() {
 
       {/* Closing line */}
       <motion.p
-        initial={reduced ? { opacity: 0 } : { opacity: 0, y: 8 }}
+        initial={reduced ? { opacity: 1 } : { opacity: 1, y: 8 }}
         whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "0px 0px -8% 0px" }}
         transition={{ duration: 0.6 }}

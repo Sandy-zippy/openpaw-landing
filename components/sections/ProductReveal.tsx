@@ -51,7 +51,7 @@ export default function ProductReveal() {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr,1fr] md:items-end md:gap-12">
         <header>
           <motion.div
-            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 10 }}
+            initial={reduced ? { opacity: 1 } : { opacity: 1, y: 10 }}
             whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "0px 0px -10% 0px" }}
             transition={{ duration: 0.5 }}
@@ -61,7 +61,7 @@ export default function ProductReveal() {
             </EyebrowLabel>
           </motion.div>
           <motion.h2
-            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
+            initial={reduced ? { opacity: 1 } : { opacity: 1, y: 14 }}
             whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "0px 0px -10% 0px" }}
             transition={{ duration: 0.55, delay: 0.08 }}
@@ -72,7 +72,7 @@ export default function ProductReveal() {
           </motion.h2>
         </header>
         <motion.p
-          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
+          initial={reduced ? { opacity: 1 } : { opacity: 1, y: 14 }}
           whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -10% 0px" }}
           transition={{ duration: 0.55, delay: 0.16 }}
@@ -90,7 +90,7 @@ export default function ProductReveal() {
         {gallery.map((item, i) => (
           <motion.div
             key={i}
-            initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
+            initial={reduced ? { opacity: 1 } : { opacity: 1, scale: 0.96 }}
             whileInView={reduced ? { opacity: 1 } : { opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "0px 0px -5% 0px" }}
             transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
@@ -122,7 +122,7 @@ export default function ProductReveal() {
         {stats.map((s, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 1, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "0px 0px -5% 0px" }}
             transition={{ duration: 0.45, delay: i * 0.06 }}

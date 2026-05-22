@@ -152,7 +152,7 @@ export default function PricingTable({ onReserveClick }: Props) {
   return (
     <SectionShell id="pricing">
       <motion.header
-        initial={reduced ? { opacity: 0 } : { opacity: 0, y: 12 }}
+        initial={reduced ? { opacity: 1 } : { opacity: 1, y: 12 }}
         whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "0px 0px -10% 0px" }}
         transition={{ duration: 0.55 }}
@@ -174,7 +174,7 @@ export default function PricingTable({ onReserveClick }: Props) {
         {ordered.map(({ tier, orderClass }, i) => (
           <motion.div
             key={tier.name}
-            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 18, scale: 0.96 }}
+            initial={reduced ? { opacity: 1 } : { opacity: 1, y: 18, scale: 0.96 }}
             whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "0px 0px -6% 0px" }}
             transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
