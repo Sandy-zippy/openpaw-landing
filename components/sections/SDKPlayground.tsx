@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import SectionShell from "@/components/primitives/SectionShell";
 import ChipTag from "@/components/primitives/ChipTag";
-import { withBase } from "@/lib/withBase";
 
 // Tokenized Python code rendered server-side. We do this by hand instead of
 // pulling in prism-react-renderer just to keep the dep graph tight.
@@ -181,45 +180,10 @@ export default function SDKPlayground() {
         </motion.p>
       </header>
 
-      <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-[1.5fr,1fr] md:gap-6">
-        {/* Code block — 60% — typewriter reveal */}
+      {/* Code block goes full width — we pulled the lifestyle demo photo
+          until we have real product photography that matches the form factor. */}
+      <div className="mt-10">
         <CodeBlock reduced={reduced} />
-
-        {/* Demo image — 40% — soft lime halo + gentle float */}
-        <div className="flex flex-col">
-          <div className="relative aspect-[4/5]">
-            {/* Lime halo glow behind the image, pulses on a 6s loop. */}
-            {!reduced && (
-              <div
-                aria-hidden="true"
-                className="sdk-halo pointer-events-none absolute inset-0 rounded-card"
-                style={{
-                  background:
-                    "radial-gradient(circle at 50% 50%, rgba(4,218,141,0.35) 0%, rgba(4,218,141,0) 65%)",
-                  filter: "blur(18px)",
-                }}
-              />
-            )}
-            <div
-              className={`relative h-full w-full overflow-hidden rounded-card border border-ink/8 bg-paperShadow ${
-                reduced ? "" : "sdk-float"
-              }`}
-            >
-              {/* Still image only — sdk-behavior-loop.mp4 showed a head-tilt
-                  motion the real robot can't do. Re-introduce once we have
-                  a Seedance regen that honors the form-factor lock. */}
-              <img
-                src={withBase("/assets/generated/sdk-demo.png")}
-                alt="OpenPaw robot on a desk beside a laptop running the Python SDK"
-                className="h-full w-full select-none object-cover"
-              />
-            </div>
-          </div>
-          <p className="mt-3 font-body text-[14px] leading-[1.6] text-inkMuted">
-            {/* COPY: directional, owner=Sandy */}
-            The exact behavior on the left, running on real hardware.
-          </p>
-        </div>
       </div>
 
       {/* Chip tags — stagger fade-up */}

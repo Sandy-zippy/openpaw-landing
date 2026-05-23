@@ -9,10 +9,8 @@ import { withBase } from "@/lib/withBase";
 type GalleryItem = { label: string; caption: string; image?: string };
 
 const gallery: GalleryItem[] = [
-  { label: "Three-quarter render — matrix-LED eyes", caption: "01 / Front", image: "generated/threequarter.png" },
-  { label: "Workbench build — maker space", caption: "02 / Build", image: "generated/workbench.png" },
-  { label: "PCB detail — OpenPaw silkscreen", caption: "03 / Detail", image: "generated/circuit.png" },
-  { label: "Desk scale — beside a ceramic mug", caption: "04 / Scale", image: "generated/desk-scale.png" },
+  { label: "Side view — wheel + chassis", caption: "01 / Side", image: "generated/gallery-right.png" },
+  { label: "Detail — drum wheel + speaker grille", caption: "02 / Detail", image: "generated/gallery-detail.png" },
 ];
 
 type Stat = { value: string; unit?: string; label: string; small?: string };
@@ -94,8 +92,10 @@ export default function ProductReveal() {
         </motion.div>
       </div>
 
-      {/* Gallery */}
-      <div className="snap-gallery mt-8 flex gap-4 overflow-x-auto px-1 pb-3 md:mt-10">
+      {/* Gallery — two product crops side by side. Was a 4-card snap scroller
+          when we had lifestyle scenes; the lifestyle scenes had wrong form
+          factor so they're pulled until we have real product photography. */}
+      <div className="mt-8 grid grid-cols-1 gap-4 md:mt-10 md:grid-cols-2 md:gap-6">
         {gallery.map((item, i) => (
           <motion.div
             key={i}
@@ -103,7 +103,6 @@ export default function ProductReveal() {
             whileInView={reduced ? { opacity: 1 } : { opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "0px 0px -5% 0px" }}
             transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-            className="min-w-[78vw] flex-shrink-0 sm:min-w-[58vw] md:min-w-[42%] lg:min-w-[34%]"
           >
             {item.image ? (
               <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-card border border-ink/8 bg-paperShadow">
