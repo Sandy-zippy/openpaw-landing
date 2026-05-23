@@ -25,7 +25,7 @@ export default function AmbientBreak() {
           {/* Still image only — ambient-mood.mp4 showed head motion the real
               robot can't do. Re-introduce once we have a Seedance regen. */}
           <img
-            src={withBase("/assets/generated/gallery-eye-detail.png")}
+            src={withBase("/assets/generated/eye-macro.png")}
             alt=""
             aria-hidden="true"
             className="absolute inset-0 h-full w-full select-none object-cover"

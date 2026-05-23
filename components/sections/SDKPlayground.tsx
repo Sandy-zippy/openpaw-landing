@@ -181,7 +181,7 @@ export default function SDKPlayground() {
         </motion.p>
       </header>
 
-      <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-[1.5fr,1fr] md:gap-7">
+      <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-[1.5fr,1fr] md:gap-6">
         {/* Code block — 60% — typewriter reveal */}
         <CodeBlock reduced={reduced} />
 

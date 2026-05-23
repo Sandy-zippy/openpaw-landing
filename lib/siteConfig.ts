@@ -40,13 +40,8 @@ export const PRICING = {
   retail: 399,
 } as const;
 
-// Shipping country list, shared between Hero reservation form and VIPGate.
-export const COUNTRIES = [
-  "United States", "Canada", "United Kingdom", "Germany", "France", "Netherlands",
-  "Spain", "Italy", "Sweden", "Norway", "Denmark", "Finland", "Switzerland",
-  "Australia", "New Zealand", "Japan", "Singapore", "Hong Kong", "South Korea",
-  "United Arab Emirates", "India", "Brazil", "Mexico", "Other",
-] as const;
+// Shipping country list intentionally removed — Stripe Checkout collects
+// shipping country/address on its hosted page so we don't need to gate on it.
 
 // Roadmap milestones — single source for Section 6
 export const ROADMAP = [

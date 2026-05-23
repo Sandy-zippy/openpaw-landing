@@ -175,7 +175,7 @@ export default function PricingTable({ onReserveClick }: Props) {
         </p>
       </motion.header>
 
-      <div className="mt-16 grid grid-cols-1 gap-6 md:gap-7 lg:grid-cols-3 lg:items-stretch">
+      <div className="mt-10 grid grid-cols-1 gap-5 md:gap-6 lg:grid-cols-3 lg:items-stretch">
         {ordered.map(({ tier, orderClass }, i) => (
           <motion.div
             key={tier.name}
@@ -191,7 +191,7 @@ export default function PricingTable({ onReserveClick }: Props) {
       </div>
 
       {/* Trust strip */}
-      <div className="mt-14 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center">
+      <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center">
         <span className="mono-caps text-inkMuted">Built by Ayva Labs</span>
         <span className="hidden h-3 w-px bg-ink/15 md:inline-block" />
         <span className="mono-caps text-inkMuted">Manufactured in India</span>

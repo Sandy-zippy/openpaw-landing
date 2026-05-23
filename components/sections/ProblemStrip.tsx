@@ -162,7 +162,7 @@ export default function ProblemStrip() {
 
       <div
         ref={gridRef}
-        className="relative mt-16 grid grid-cols-1 gap-12 md:mt-20 md:grid-cols-3 md:gap-10"
+        className="relative mt-10 grid grid-cols-1 gap-10 md:mt-12 md:grid-cols-3 md:gap-8"
       >
         {blocks.map((b, i) => (
           <motion.article
@@ -190,7 +190,7 @@ export default function ProblemStrip() {
       </div>
 
       {/* Centered divider with lime dot — breathing scale/opacity loop (reduced-motion respected) */}
-      <div className="mt-20 flex items-center justify-center gap-4">
+      <div className="mt-12 flex items-center justify-center gap-4">
         <div className="h-px w-24 bg-ink/15" />
         <motion.span
           className="h-1.5 w-1.5 rounded-full bg-lime"

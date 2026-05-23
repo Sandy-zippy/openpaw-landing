@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 import SectionShell from "@/components/primitives/SectionShell";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import CTAPrimary from "@/components/primitives/CTAPrimary";
-import { COUNTRIES, PRICING } from "@/lib/siteConfig";
+import { PRICING } from "@/lib/siteConfig";
 import { reservationDraft, useReservation } from "@/lib/useReservation";
 
 function VIPCounter({ claimed, total }: { claimed: number; total: number }) {
@@ -57,26 +57,26 @@ function VIPCounter({ claimed, total }: { claimed: number; total: number }) {
         {/* COPY: directional, owner=Sandy */}
         {total - claimed} spots remaining
       </div>
-
     </div>
   );
 }
 
 export default function VIPGate() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [country, setCountry] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [prefilled, setPrefilled] = useState(false);
   const { submit } = useReservation();
 
-  // Pick up any draft saved by the Hero form so the user doesn't retype.
+  // Pick up any draft saved by the Hero form so the user lands on a
+  // single "Pay $1 deposit" button instead of the full form again.
   useEffect(() => {
     const draft = reservationDraft.read();
     if (draft?.email) {
+      setName(draft.name ?? "");
       setEmail(draft.email);
-      if (draft.country) setCountry(draft.country);
       setPrefilled(true);
     }
   }, []);
@@ -87,7 +87,7 @@ export default function VIPGate() {
     setNotice(null);
     setSubmitting(true);
 
-    const result = await submit({ email, country, stage: "lp_vip_gate" });
+    const result = await submit({ name, email, stage: "lp_vip_gate" });
 
     if (result.status === "redirecting") {
       reservationDraft.clear();
@@ -114,66 +114,92 @@ export default function VIPGate() {
           </h2>
           <p className="mt-5 max-w-[520px] font-body text-[17px] leading-[1.6] text-inkMuted">
             {/* COPY: directional, owner=Sandy */}
-            <span className="font-600 text-ink">{PRICING.vipClaimed} / {PRICING.vipLimit}</span> VIP spots claimed. Pay ${PRICING.vipDeposit} today, ${PRICING.vipRemainder} on
-            Kickstarter launch day. Cancel and get every cent back, any time
-            before December.
+            <span className="font-600 text-ink">{PRICING.vipClaimed} / {PRICING.vipLimit}</span> VIP spots claimed.
+            Pay ${PRICING.vipDeposit} today, ${PRICING.vipRemainder} on Kickstarter launch day.
+            Cancel and get every cent back, any time before December.
           </p>
 
-          {prefilled && (
-            <div role="status" className="mt-6 flex items-start gap-3 rounded-card border border-lime/40 bg-lime/10 px-4 py-3 font-body text-[14px] text-ink">
-              <span aria-hidden="true" className="mt-[6px] inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-lime" />
-              <span>
-                We saved your email. <span className="font-600">Finish your reservation below</span> — payment opens when Kickstarter goes live July 7.
-              </span>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-            <label className="block">
-              <span className="mono-caps text-inkMuted">Email</span>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="you@email.com"
-                autoComplete="email"
-                className="mt-2 w-full rounded-card border border-ink/15 bg-paper px-5 py-4 font-body text-[16px] text-ink outline-none transition focus:border-ink focus:bg-paper focus:ring-2 focus:ring-lime/40"
-              />
-            </label>
-
-            <label className="block">
-              <span className="mono-caps text-inkMuted">Shipping country</span>
-              <select
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                required
-                className="mt-2 w-full appearance-none rounded-card border border-ink/15 bg-paper px-5 py-4 font-body text-[16px] text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-lime/40"
-              >
-                <option value="" disabled>Select your country…</option>
-                {COUNTRIES.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </label>
-
-            {error && (
-              <div role="alert" className="mono-caps text-[#B43A3A]">{error}</div>
-            )}
-            {notice && (
-              <div role="status" className="rounded-card bg-paperShadow px-4 py-3 font-body text-[14px] text-ink">
-                {notice}
+          {prefilled ? (
+            // Hero already collected name + email. Skip straight to checkout.
+            <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+              <div className="rounded-card border border-lime/40 bg-lime/10 p-5">
+                <div className="mono-caps text-[10px] tracking-[0.18em] text-ink">Confirming your spot for</div>
+                <div className="mt-2 font-display text-[20px] font-600 text-ink">
+                  {name || "Friend"} · <span className="text-inkMuted">{email}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => { reservationDraft.clear(); setPrefilled(false); }}
+                  className="mono-caps mt-3 text-inkMuted underline-offset-4 hover:text-ink hover:underline"
+                >
+                  Not you? Use a different email
+                </button>
               </div>
-            )}
 
-            <CTAPrimary type="submit" fullWidth disabled={submitting}>
-              {submitting ? "Reserving…" : `Reserve VIP — $${PRICING.vipDeposit} →`}
-            </CTAPrimary>
+              {error && (
+                <div role="alert" className="mono-caps text-[#B43A3A]">{error}</div>
+              )}
+              {notice && (
+                <div role="status" className="rounded-card bg-paperShadow px-4 py-3 font-body text-[14px] text-ink">
+                  {notice}
+                </div>
+              )}
 
-            <p className="mono-caps text-inkMuted">
-              We don't sell your email. We don't run ads. Unsubscribe in one click.
-            </p>
-          </form>
+              <CTAPrimary type="submit" fullWidth disabled={submitting} ariaLabel="Pay $1 deposit to reserve VIP">
+                {submitting ? "Taking you to checkout…" : `Pay $${PRICING.vipDeposit} deposit →`}
+              </CTAPrimary>
+
+              <p className="mono-caps text-inkMuted">
+                Stripe Checkout collects your shipping country. Refundable any time before tooling starts.
+              </p>
+            </form>
+          ) : (
+            // No draft — show the simple Name + Email form (same shape as Hero).
+            <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+              <label className="block">
+                <span className="mono-caps text-inkMuted">First name</span>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  placeholder="Your name"
+                  autoComplete="given-name"
+                  className="mt-2 w-full rounded-card border border-ink/15 bg-paper px-5 py-4 font-body text-[16px] text-ink outline-none transition focus:border-ink focus:bg-paper focus:ring-2 focus:ring-lime/40"
+                />
+              </label>
+
+              <label className="block">
+                <span className="mono-caps text-inkMuted">Email</span>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="you@email.com"
+                  autoComplete="email"
+                  className="mt-2 w-full rounded-card border border-ink/15 bg-paper px-5 py-4 font-body text-[16px] text-ink outline-none transition focus:border-ink focus:bg-paper focus:ring-2 focus:ring-lime/40"
+                />
+              </label>
+
+              {error && (
+                <div role="alert" className="mono-caps text-[#B43A3A]">{error}</div>
+              )}
+              {notice && (
+                <div role="status" className="rounded-card bg-paperShadow px-4 py-3 font-body text-[14px] text-ink">
+                  {notice}
+                </div>
+              )}
+
+              <CTAPrimary type="submit" fullWidth disabled={submitting}>
+                {submitting ? "Taking you to checkout…" : `Reserve VIP — pay $${PRICING.vipDeposit} →`}
+              </CTAPrimary>
+
+              <p className="mono-caps text-inkMuted">
+                Stripe Checkout collects your shipping country. Refundable any time before tooling starts.
+              </p>
+            </form>
+          )}
         </div>
 
         {/* Counter column — order-1 on mobile so it appears above the form */}

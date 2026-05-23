@@ -167,7 +167,7 @@ export default function SensorMap() {
       </header>
 
       {/* Desktop: SVG with hoverable callouts */}
-      <div className="mt-14 hidden md:block">
+      <div className="mt-10 hidden md:block">
         <svg
           viewBox="-220 0 1240 580"
           className="w-full"
@@ -194,7 +194,7 @@ export default function SensorMap() {
       </div>
 
       {/* Mobile: static SVG + tap-to-expand callout list */}
-      <div className="mt-12 md:hidden">
+      <div className="mt-8 md:hidden">
         <svg
           viewBox="200 80 400 440"
           className="mx-auto w-full max-w-[420px]"

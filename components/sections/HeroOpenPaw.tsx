@@ -5,7 +5,7 @@ import { useState } from "react";
 import CTAPrimary from "@/components/primitives/CTAPrimary";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import OpenPawWordmark from "@/components/primitives/OpenPawWordmark";
-import { COUNTRIES, PRICING, PROJECT_NAME, SHIP_DATE } from "@/lib/siteConfig";
+import { PRICING, PROJECT_NAME, SHIP_DATE } from "@/lib/siteConfig";
 import { reservationDraft, useReservation } from "@/lib/useReservation";
 import { withBase } from "@/lib/withBase";
 
@@ -42,12 +42,12 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
         <span aria-hidden="true" className="hidden md:block" />
       </div>
 
-      <div className="relative mx-auto w-full max-w-shell px-6 pb-14 pt-12 md:px-10 md:pb-28 md:pt-24">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.05fr,0.95fr] lg:gap-16">
+      <div className="relative mx-auto w-full max-w-shell px-6 pb-10 pt-10 md:px-10 md:pb-16 md:pt-14">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.05fr,0.95fr] lg:gap-14">
           {/* Left — copy column */}
           <div>
             <motion.div {...appear(0)}>
-              <EyebrowLabel tone="lime" className="mb-6">
+              <EyebrowLabel tone="lime" className="mb-4">
                 {/* COPY: directional, owner=Sandy */}
                 Ships {SHIP_DATE} · Built in the open
               </EyebrowLabel>
@@ -64,14 +64,14 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
 
             <motion.p
               {...appear(0.18)}
-              className="mt-8 max-w-[540px] font-body text-[18px] leading-[1.55] text-inkMuted md:text-[19px]"
+              className="mt-6 max-w-[540px] font-body text-[18px] leading-[1.55] text-inkMuted md:text-[19px]"
             >
               {/* COPY: directional, owner=Sandy */}
               Hardware specs you can download. Firmware you can fork. A robot
               built in the open.
             </motion.p>
 
-            <motion.div {...appear(0.28)} className="mt-10">
+            <motion.div {...appear(0.28)} className="mt-8">
               <HeroReservationForm onFallbackScroll={onReserveClick} />
             </motion.div>
 
@@ -190,8 +190,8 @@ function ProductStage({ reduceMotion }: { reduceMotion: boolean }) {
         transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
       >
         <img
-          src={withBase("/assets/generated/hero-alt.png")}
-          alt="OpenPaw — three-quarter render with teal LED eyes"
+          src={withBase("/assets/generated/hero.png")}
+          alt="OpenPaw — fused-chassis robot with matrix-LED eyes"
           className="relative z-10 mx-auto h-auto w-[78vw] max-w-[360px] select-none drop-shadow-[0_24px_48px_rgba(14,30,46,0.18)] md:w-full md:max-w-[520px]"
         />
         {/* hero-loop.mp4 was pulled — the Higgsfield render showed motion the
@@ -234,37 +234,45 @@ function ProductStage({ reduceMotion }: { reduceMotion: boolean }) {
 }
 
 function HeroReservationForm({ onFallbackScroll }: { onFallbackScroll: () => void }) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [country, setCountry] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [notice, setNotice] = useState<string | null>(null);
-  const { submit } = useReservation();
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setNotice(null);
-    setSubmitting(true);
-
-    const result = await submit({ email, country, stage: "lp_hero" });
-
-    if (result.status === "redirecting") return;
-    setSubmitting(false);
-    if (result.status === "error") {
-      setError(result.message);
-    } else {
-      // Stripe isn't live — stash the draft so VIPGate can prefill + show a
-      // confirmation banner instead of making the user retype.
-      reservationDraft.save({ email, country });
-      setNotice(result.message);
-      onFallbackScroll();
+    if (!name || !email) {
+      setError("Add your name and email to continue.");
+      return;
     }
+    setSubmitting(true);
+    // Hero form is just the lead capture; payment + shipping live on the
+    // VIPGate confirm card, which reads this draft and offers a single
+    // "Pay $1 deposit" button to Stripe Checkout (Stripe collects the
+    // shipping country/address on its hosted page).
+    reservationDraft.save({ name, email });
+    onFallbackScroll();
+    // Brief delay so the scroll begins before we release the button state —
+    // otherwise the user sees the button re-enable mid-scroll.
+    setTimeout(() => setSubmitting(false), 400);
   };
 
   return (
     <form onSubmit={onSubmit} className="max-w-[520px]">
       <div className="flex flex-col gap-3 sm:flex-row sm:gap-2">
+        <label className="block sm:w-[42%]">
+          <span className="sr-only">First name</span>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            placeholder="Your name"
+            autoComplete="given-name"
+            className="w-full rounded-pill border border-ink/15 bg-paper px-5 py-4 font-body text-[15px] text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-lime/40"
+          />
+        </label>
         <label className="block flex-1">
           <span className="sr-only">Email</span>
           <input
@@ -277,35 +285,16 @@ function HeroReservationForm({ onFallbackScroll }: { onFallbackScroll: () => voi
             className="w-full rounded-pill border border-ink/15 bg-paper px-5 py-4 font-body text-[15px] text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-lime/40"
           />
         </label>
-        <label className="block sm:w-[40%]">
-          <span className="sr-only">Shipping country</span>
-          <select
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            required
-            className="w-full appearance-none rounded-pill border border-ink/15 bg-paper px-5 py-4 font-body text-[15px] text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-lime/40"
-          >
-            <option value="" disabled>Country…</option>
-            {COUNTRIES.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
-        </label>
       </div>
 
       <div className="mt-3">
-        <CTAPrimary type="submit" fullWidth disabled={submitting} ariaLabel="Reserve VIP unit for $1 deposit">
-          {submitting ? "Reserving…" : `Reserve VIP — $${PRICING.vipDeposit} deposit →`}
+        <CTAPrimary type="submit" fullWidth disabled={submitting} ariaLabel="Reserve your VIP spot">
+          {submitting ? "Taking you to checkout…" : `Reserve VIP — pay $${PRICING.vipDeposit} →`}
         </CTAPrimary>
       </div>
 
       {error && (
         <div role="alert" className="mono-caps mt-3 text-[#B43A3A]">{error}</div>
-      )}
-      {notice && (
-        <div role="status" className="mt-3 rounded-card bg-paperShadow px-4 py-3 font-body text-[14px] text-ink">
-          {notice}
-        </div>
       )}
 
       <p className="mono-caps mt-3 text-inkMuted">

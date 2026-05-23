@@ -7,8 +7,8 @@ import { trackLead } from "@/components/Tracking";
 export type ReservationStage = "lp_hero" | "lp_vip_gate";
 
 export type ReservationInput = {
+  name: string;
   email: string;
-  country: string;
   stage: ReservationStage;
 };
 
@@ -17,12 +17,12 @@ export type ReservationResult =
   | { status: "saved"; message: string }
   | { status: "error"; message: string };
 
-// Lightweight cross-section draft so the Hero form can prefill VIPGate when
-// Stripe isn't wired up yet (or any time the user submits Hero then scrolls
-// down). Stored in sessionStorage so it clears on tab close.
+// Cross-section draft so VIPGate can show the user the name/email they
+// already submitted on Hero and skip straight to the payment button.
+// sessionStorage so it clears on tab close.
 const DRAFT_KEY = "openpaw_draft";
 
-export type ReservationDraft = { email: string; country: string };
+export type ReservationDraft = { name: string; email: string };
 
 export const reservationDraft = {
   save(d: ReservationDraft) {
@@ -40,9 +40,9 @@ export const reservationDraft = {
 };
 
 export function useReservation() {
-  async function submit({ email, country, stage }: ReservationInput): Promise<ReservationResult> {
-    if (!email || !country) {
-      return { status: "error", message: "Add your email and country to continue." };
+  async function submit({ name, email, stage }: ReservationInput): Promise<ReservationResult> {
+    if (!name || !email) {
+      return { status: "error", message: "Add your name and email to continue." };
     }
 
     const eventId = generateEventId("Lead");
@@ -53,8 +53,8 @@ export function useReservation() {
     const payload = {
       event_name: "Lead",
       event_id: eventId,
+      name,
       email,
-      country,
       stage,
       source: siteConfig.domain,
       page_url: typeof window !== "undefined" ? window.location.href : "",
@@ -68,11 +68,11 @@ export function useReservation() {
 
     try {
       localStorage.setItem("openpaw_user", JSON.stringify({
-        email, country, lead_event_id: eventId, ts: Date.now(),
+        name, email, lead_event_id: eventId, ts: Date.now(),
       }));
     } catch {}
 
-    trackLead({ email, eventID: eventId });
+    trackLead({ email, firstName: name, eventID: eventId });
 
     if (siteConfig.tracking.eventsWebhookUrl) {
       try {
@@ -97,7 +97,7 @@ export function useReservation() {
 
     return {
       status: "saved",
-      message: "VIP signup opening soon. We saved your email — we'll be in touch with checkout the moment it's live.",
+      message: "We saved your spot. Stripe checkout opens the moment it's live.",
     };
   }
 

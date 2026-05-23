@@ -11,10 +11,11 @@ type Props = {
   tight?: boolean;
 };
 
+// Desktop spacing pulled in across the board — was reading as bloated.
 const PAD_Y: Record<Spacing, string> = {
-  compact:  "py-12 md:py-20",
-  normal:   "py-14 md:py-[120px]",
-  spacious: "py-20 md:py-[160px]",
+  compact:  "py-10 md:py-14",
+  normal:   "py-12 md:py-20",
+  spacious: "py-14 md:py-28",
 };
 
 export default function SectionShell({ children, id, className, tone = "paper", spacing, tight }: Props) {

@@ -144,7 +144,7 @@ export default function FAQ() {
         </h2>
       </header>
 
-      <div className="mx-auto mt-14 max-w-[920px] border-t border-ink/12">
+      <div className="mx-auto mt-10 max-w-[920px] border-t border-ink/12">
         {items.map((qa, i) => (
           <FAQItem
             key={qa.q}

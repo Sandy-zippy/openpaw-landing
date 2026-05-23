@@ -261,7 +261,7 @@ export default function FoundersStory() {
       </header>
 
       {/* Pivot timeline — horizontal scroll-snap on mobile, 3 columns on md+ */}
-      <div className="relative mt-14 md:mt-16">
+      <div className="relative mt-10 md:mt-12">
         <div className="snap-gallery flex gap-5 overflow-x-auto px-1 pb-3 [mask-image:linear-gradient(to_right,transparent_0,black_16px,black_calc(100%-32px),transparent_100%)] md:grid md:grid-cols-3 md:gap-7 md:overflow-visible md:px-0 md:pb-0 md:[mask-image:none]">
           {timeline.map((step, i) => (
             <TimelineCard
@@ -285,7 +285,7 @@ export default function FoundersStory() {
       </div>
 
       {/* Founder triptych */}
-      <div className="mt-20 grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-7">
+      <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-7">
         {founders.map((f, i) => (
           <FounderCard key={f.name} founder={f} index={i} reduced={reduced} />
         ))}
@@ -315,7 +315,7 @@ export default function FoundersStory() {
       </motion.figure>
 
       {/* Spark callouts — what we were watching that week */}
-      <div className="mt-20 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+      <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
         <motion.div
           initial={reduced ? { opacity: 1 } : { opacity: 1, x: -16 }}
           whileInView={reduced ? { opacity: 1 } : { opacity: 1, x: 0 }}
@@ -364,7 +364,7 @@ export default function FoundersStory() {
         whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "0px 0px -8% 0px" }}
         transition={{ duration: 0.6 }}
-        className="mx-auto mt-20 max-w-[640px] text-center font-body italic text-[17px] leading-[1.55] text-inkMuted"
+        className="mx-auto mt-12 max-w-[640px] text-center font-body italic text-[17px] leading-[1.55] text-inkMuted"
       >
         {/* COPY: directional, owner=Sandy */}
         Built by hand. Built in public. Built to fork.

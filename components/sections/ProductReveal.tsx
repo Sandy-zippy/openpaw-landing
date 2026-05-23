@@ -9,10 +9,10 @@ import { withBase } from "@/lib/withBase";
 type GalleryItem = { label: string; caption: string; image?: string };
 
 const gallery: GalleryItem[] = [
-  { label: "Three-quarter render — matrix-LED eyes", caption: "01 / Front", image: "generated/silhouette-glow.png" },
-  { label: "Workbench build — partial assembly", caption: "02 / Build", image: "generated/workbench-build.png" },
-  { label: "PCB + chassis detail", caption: "03 / Detail", image: "generated/circuit-detail.png" },
-  { label: "Desk scale — beside a ceramic mug", caption: "04 / Scale", image: "generated/gallery-scale.png" },
+  { label: "Three-quarter render — matrix-LED eyes", caption: "01 / Front", image: "generated/threequarter.png" },
+  { label: "Workbench build — maker space", caption: "02 / Build", image: "generated/workbench.png" },
+  { label: "PCB detail — OpenPaw silkscreen", caption: "03 / Detail", image: "generated/circuit.png" },
+  { label: "Desk scale — beside a ceramic mug", caption: "04 / Scale", image: "generated/desk-scale.png" },
 ];
 
 type Stat = { value: string; unit?: string; label: string; small?: string };
@@ -47,7 +47,7 @@ export default function ProductReveal() {
 
   return (
     <SectionShell id="product" spacing="compact">
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr,1fr] md:items-end md:gap-12">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-[1fr,1fr] md:items-end md:gap-10">
         <header>
           <motion.div
             initial={reduced ? { opacity: 1 } : { opacity: 1, y: 10 }}
@@ -95,7 +95,7 @@ export default function ProductReveal() {
       </div>
 
       {/* Gallery */}
-      <div className="snap-gallery mt-12 flex gap-5 overflow-x-auto px-1 pb-3 md:mt-16">
+      <div className="snap-gallery mt-8 flex gap-4 overflow-x-auto px-1 pb-3 md:mt-10">
         {gallery.map((item, i) => (
           <motion.div
             key={i}
@@ -127,7 +127,7 @@ export default function ProductReveal() {
         ))}
       </div>
 
-      <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
+      <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
         {stats.map((s, i) => (
           <motion.div
             key={i}
@@ -144,7 +144,7 @@ export default function ProductReveal() {
       {/* Link strip — BOM + STEP files release publicly with the Kickstarter
           launch. Until then, point users to the VIP signup so we can email
           them when the downloads are live. */}
-      <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-ink/10 pt-6">
+      <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-ink/10 pt-5">
         <a href="#vip" className="mono-caps text-ink transition-colors hover:text-ink/60">
           Get notified when BOM drops →
         </a>

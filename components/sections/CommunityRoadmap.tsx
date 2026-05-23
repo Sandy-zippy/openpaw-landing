@@ -88,7 +88,7 @@ export default function CommunityRoadmap() {
         </p>
       </header>
 
-      <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-[1.15fr,1fr] lg:gap-14">
+      <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[1.15fr,1fr] lg:gap-12">
         {/* Roadmap */}
         <ol className="relative">
           {/* Vertical rail */}
