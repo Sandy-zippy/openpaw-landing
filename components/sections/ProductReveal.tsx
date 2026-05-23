@@ -10,10 +10,10 @@ import { withBase } from "@/lib/withBase";
 type GalleryItem = { label: string; caption: string; image?: string };
 
 const gallery: GalleryItem[] = [
-  { label: "Front view — matrix-LED eyes", caption: "01 / Front", image: "bot-left.png" },
-  { label: "Side view — wheel + chassis", caption: "02 / Side", image: "bot-right.png" },
-  { label: "Top-down — mic + sensor array", caption: "03 / Top", image: "generated/gallery-top.png" },
-  { label: "Desk scale — beside a ceramic mug", caption: "04 / Scale", image: "generated/gallery-scale.png" },
+  { label: "Three-quarter render — matrix-LED eyes", caption: "01 / Front", image: "generated/silhouette-glow.png" },
+  { label: "Workbench build — partial assembly", caption: "02 / Build", image: "generated/workbench-build.png" },
+  { label: "PCB + chassis detail", caption: "03 / Detail", image: "generated/circuit-detail.png" },
+  { label: "Top-down — mic + sensor array", caption: "04 / Top", image: "generated/gallery-top.png" },
 ];
 
 type Stat = { value: string; unit?: string; label: string; small?: string };
@@ -47,7 +47,7 @@ export default function ProductReveal() {
   const reduced = useReducedMotion() ?? false;
 
   return (
-    <SectionShell id="product">
+    <SectionShell id="product" spacing="compact">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr,1fr] md:items-end md:gap-12">
         <header>
           <motion.div
@@ -71,18 +71,25 @@ export default function ProductReveal() {
             A 5-inch desktop companion. Every byte of it is yours to rewrite.
           </motion.h2>
         </header>
-        <motion.p
+        <motion.div
           initial={reduced ? { opacity: 1 } : { opacity: 1, y: 14 }}
           whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -10% 0px" }}
           transition={{ duration: 0.55, delay: 0.16 }}
-          className="font-body text-[17px] leading-[1.6] text-inkMuted md:max-w-[480px] md:justify-self-end"
+          className="md:max-w-[480px] md:justify-self-end"
         >
-          {/* COPY: directional, owner=Sandy */}
-          OpenPaw is a fully assembled robot you can use out of the box — and a
-          published hardware platform (BOM, STEP files, PCB schematics, firmware
-          source) you can fork, mod, and reprint.
-        </motion.p>
+          <p className="font-body text-[17px] leading-[1.6] text-inkMuted">
+            {/* COPY: directional, owner=Sandy */}
+            OpenPaw is a fully assembled robot you can use out of the box — and a
+            published hardware platform (BOM, STEP files, PCB schematics, firmware
+            source) you can fork, mod, and reprint.
+          </p>
+          <ul className="mt-6 space-y-2 border-l-2 border-lime pl-4">
+            <li className="mono-caps text-ink">MIT firmware</li>
+            <li className="mono-caps text-ink">CERN-OHL-S hardware</li>
+            <li className="mono-caps text-ink">ESP32-S3 · on-device LLM</li>
+          </ul>
+        </motion.div>
       </div>
 
       {/* Gallery */}

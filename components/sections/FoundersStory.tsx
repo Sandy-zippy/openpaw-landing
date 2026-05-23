@@ -226,7 +226,7 @@ export default function FoundersStory() {
   const reduced = useReducedMotion() ?? false;
 
   return (
-    <SectionShell id="founders">
+    <SectionShell id="founders" spacing="spacious">
       {/* Section header */}
       <header className="mx-auto max-w-[820px] text-center">
         <motion.div

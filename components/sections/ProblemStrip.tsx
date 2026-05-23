@@ -146,7 +146,7 @@ export default function ProblemStrip() {
   const animate = inView && !reduced;
 
   return (
-    <SectionShell id="problem">
+    <SectionShell id="problem" spacing="compact">
       <motion.header
         initial={reduced ? { opacity: 1 } : { opacity: 1, y: 14 }}
         whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}

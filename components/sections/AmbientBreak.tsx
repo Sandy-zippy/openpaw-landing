@@ -33,13 +33,14 @@ export default function AmbientBreak() {
             className="absolute inset-0 h-full w-full select-none object-cover"
           />
 
-          {/* Bottom-to-top gradient so the headline reads cleanly */}
+          {/* Bottom-to-top gradient so the headline reads cleanly — kept light
+              enough that the video stays visible through it. */}
           <div
             aria-hidden="true"
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(14,30,46,0) 35%, rgba(14,30,46,0.75) 100%)",
+                "linear-gradient(180deg, rgba(14,30,46,0) 20%, rgba(14,30,46,0.25) 60%, rgba(14,30,46,0.45) 100%)",
             }}
           />
 
@@ -59,7 +60,7 @@ export default function AmbientBreak() {
                   Built in the open
                 </span>
               </div>
-              <h2 className="mt-4 font-display text-display-lg font-700 leading-[1.05] text-paper">
+              <h2 className="mt-4 font-display text-display-md font-600 leading-[1.05] text-paper">
                 {/* COPY: directional, owner=Sandy */}
                 Every behavior. Every byte. <span className="text-lime">Yours to rewrite.</span>
               </h2>

@@ -19,45 +19,63 @@ const callouts: Callout[] = [
   { id: "speaker", label: "Full-range speaker", detail: "Chest-mounted 28mm full-range driver. Tuned for voice + soft chimes.", x: 400, y: 340, side: "left" },
   { id: "temp", label: "Temp + ambient light", detail: "Combined I²C sensor — feeds room context to behavior policies.", x: 510, y: 280, side: "right" },
   { id: "imu", label: "6-axis IMU", detail: "Accel + gyro on the body PCB. Detects tip, lift, and motion.", x: 510, y: 330, side: "right" },
-  { id: "servos", label: "2-DOF neck + 4-DOF body", detail: "Six total servos. Sub-1° resolution on the neck. All driver code open.", x: 290, y: 360, side: "left" },
+  { id: "servos", label: "6-DOF expressive body", detail: "Six servos drive body sway, lean, and tilt — head is fixed to the chassis. Sub-1° resolution. All driver code open.", x: 290, y: 360, side: "left" },
   { id: "edge", label: "Edge LLM compute", detail: "Gemma-3-class on-device LLM, 4B params quantized to INT4 (exact chip TBD).", x: 410, y: 410, side: "left" },
   { id: "ports", label: "USB-C + micro-HDMI debug", detail: "Power, flash, and serial console — no hidden test pads.", x: 510, y: 430, side: "right" },
   { id: "shell", label: "3D-printable shell", detail: "PETG / PLA shells. STL provided for every external panel.", x: 290, y: 460, side: "left" },
   { id: "battery", label: "Battery + USB-C charging", detail: "Internal Li-ion + USB-C PD charging. Hot-swap planned for v2.", x: 510, y: 490, side: "right" },
 ];
 
-// Stylized robot silhouette (centered around x=400, y=300)
+// Stylized robot silhouette (centered around x=400, y=300).
+// Form-factor lock: head is a rounded rectangle fused to the body — NO neck,
+// NO independent head motion. Eyes are matrix-LED rectangles, not circles.
 function RobotSilhouette() {
   return (
     <g>
-      {/* Head */}
-      <ellipse cx="400" cy="220" rx="105" ry="95" fill="#E8E2D2" stroke="#1A1B1F" strokeWidth="1.5" />
-      {/* Eyes */}
-      <circle cx="372" cy="215" r="14" fill="#1A1B1F" />
-      <circle cx="428" cy="215" r="14" fill="#1A1B1F" />
-      <circle cx="376" cy="211" r="3" fill="#F5F1E8" />
-      <circle cx="432" cy="211" r="3" fill="#F5F1E8" />
       {/* Antenna */}
-      <line x1="400" y1="125" x2="400" y2="105" stroke="#1A1B1F" strokeWidth="1.5" />
-      <circle cx="400" cy="100" r="5" fill="#C8E94B" stroke="#1A1B1F" strokeWidth="1.5" />
-      {/* Mic array dots on top */}
-      <circle cx="368" cy="135" r="2.5" fill="#1A1B1F" />
-      <circle cx="385" cy="128" r="2.5" fill="#1A1B1F" />
-      <circle cx="415" cy="128" r="2.5" fill="#1A1B1F" />
-      <circle cx="432" cy="135" r="2.5" fill="#1A1B1F" />
-      {/* Neck */}
-      <rect x="385" y="305" width="30" height="22" rx="4" fill="#E8E2D2" stroke="#1A1B1F" strokeWidth="1.5" />
-      {/* Body */}
-      <rect x="320" y="325" width="160" height="160" rx="22" fill="#E8E2D2" stroke="#1A1B1F" strokeWidth="1.5" />
+      <line x1="400" y1="140" x2="400" y2="115" stroke="#1A1B1F" strokeWidth="1.5" />
+      <circle cx="400" cy="110" r="5" fill="#C8E94B" stroke="#1A1B1F" strokeWidth="1.5" />
+      {/* Mic array dots on top edge of head */}
+      <circle cx="335" cy="152" r="2.5" fill="#1A1B1F" />
+      <circle cx="365" cy="148" r="2.5" fill="#1A1B1F" />
+      <circle cx="435" cy="148" r="2.5" fill="#1A1B1F" />
+      <circle cx="465" cy="152" r="2.5" fill="#1A1B1F" />
+      {/* Head — rounded rectangle, fused to body (no neck) */}
+      <rect x="295" y="140" width="210" height="170" rx="22" fill="#E8E2D2" stroke="#1A1B1F" strokeWidth="1.5" />
+      {/* Matrix-LED eyes — rectangular, with teal dot patterns */}
+      <rect x="333" y="200" width="54" height="34" rx="4" fill="#1A1B1F" />
+      <rect x="413" y="200" width="54" height="34" rx="4" fill="#1A1B1F" />
+      <g fill="#04DA8D">
+        {/* Left eye dot pattern */}
+        <circle cx="346" cy="212" r="1.8" />
+        <circle cx="356" cy="212" r="1.8" />
+        <circle cx="366" cy="212" r="1.8" />
+        <circle cx="376" cy="212" r="1.8" />
+        <circle cx="346" cy="222" r="1.8" />
+        <circle cx="356" cy="222" r="1.8" />
+        <circle cx="366" cy="222" r="1.8" />
+        <circle cx="376" cy="222" r="1.8" />
+        {/* Right eye dot pattern */}
+        <circle cx="426" cy="212" r="1.8" />
+        <circle cx="436" cy="212" r="1.8" />
+        <circle cx="446" cy="212" r="1.8" />
+        <circle cx="456" cy="212" r="1.8" />
+        <circle cx="426" cy="222" r="1.8" />
+        <circle cx="436" cy="222" r="1.8" />
+        <circle cx="446" cy="222" r="1.8" />
+        <circle cx="456" cy="222" r="1.8" />
+      </g>
+      {/* Body — flush against head, no neck gap */}
+      <rect x="320" y="310" width="160" height="175" rx="22" fill="#E8E2D2" stroke="#1A1B1F" strokeWidth="1.5" />
       {/* Speaker grille (chest) */}
       <g stroke="#1A1B1F" strokeWidth="1" opacity="0.8">
-        <line x1="350" y1="360" x2="450" y2="360" />
-        <line x1="350" y1="370" x2="450" y2="370" />
-        <line x1="350" y1="380" x2="450" y2="380" />
+        <line x1="350" y1="345" x2="450" y2="345" />
+        <line x1="350" y1="355" x2="450" y2="355" />
+        <line x1="350" y1="365" x2="450" y2="365" />
       </g>
       {/* Body panel — edge LLM compute */}
-      <rect x="360" y="400" width="80" height="40" rx="6" fill="#F5F1E8" stroke="#1A1B1F" strokeWidth="1.2" />
-      <text x="400" y="425" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="10" fill="#1A1B1F" letterSpacing="0.1em">LLM</text>
+      <rect x="360" y="395" width="80" height="40" rx="6" fill="#F5F1E8" stroke="#1A1B1F" strokeWidth="1.2" />
+      <text x="400" y="420" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="10" fill="#1A1B1F" letterSpacing="0.1em">LLM</text>
       {/* Ports */}
       <rect x="445" y="455" width="18" height="6" rx="2" fill="#1A1B1F" />
       <rect x="425" y="455" width="14" height="6" rx="2" fill="#1A1B1F" />

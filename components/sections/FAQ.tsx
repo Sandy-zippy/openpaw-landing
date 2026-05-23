@@ -135,7 +135,7 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <SectionShell id="faq">
+    <SectionShell id="faq" spacing="compact">
       <header className="mx-auto max-w-[760px] text-center">
         <EyebrowLabel className="mb-5 justify-center">FAQ</EyebrowLabel>
         <h2 className="font-display text-display-xl font-700 text-ink">

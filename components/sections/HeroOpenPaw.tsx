@@ -6,7 +6,8 @@ import CTAPrimary from "@/components/primitives/CTAPrimary";
 import CTAGhost from "@/components/primitives/CTAGhost";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import OpenPawWordmark from "@/components/primitives/OpenPawWordmark";
-import { PROJECT_NAME, REPO_URL, SHIP_DATE } from "@/lib/siteConfig";
+import { COUNTRIES, PRICING, PROJECT_NAME, REPO_URL, SHIP_DATE } from "@/lib/siteConfig";
+import { useReservation } from "@/lib/useReservation";
 import { withBase } from "@/lib/withBase";
 
 type Props = {
@@ -76,13 +77,14 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
               built in the open.
             </motion.p>
 
+            <motion.div {...appear(0.28)} className="mt-10">
+              <HeroReservationForm onFallbackScroll={onReserveClick} />
+            </motion.div>
+
             <motion.div
-              {...appear(0.28)}
-              className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 [&>*]:w-full sm:[&>*]:w-auto"
+              {...appear(0.36)}
+              className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
             >
-              <CTAPrimary onClick={onReserveClick} ariaLabel="Reserve VIP unit for $1 deposit">
-                Reserve VIP — $1 deposit →
-              </CTAPrimary>
               <CTAGhost href={REPO_URL} external>
                 View on GitHub
               </CTAGhost>
@@ -266,6 +268,86 @@ function ProductStage({ reduceMotion }: { reduceMotion: boolean }) {
         </span>
       </motion.div>
     </motion.div>
+  );
+}
+
+function HeroReservationForm({ onFallbackScroll }: { onFallbackScroll: () => void }) {
+  const [email, setEmail] = useState("");
+  const [country, setCountry] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  const { submit } = useReservation();
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setNotice(null);
+    setSubmitting(true);
+
+    const result = await submit({ email, country, stage: "lp_hero" });
+
+    if (result.status === "redirecting") return;
+    setSubmitting(false);
+    if (result.status === "error") {
+      setError(result.message);
+    } else {
+      setNotice(result.message);
+      // Surface the full VIP section so the user sees the spot counter + receipt.
+      onFallbackScroll();
+    }
+  };
+
+  return (
+    <form onSubmit={onSubmit} className="max-w-[520px]">
+      <div className="flex flex-col gap-3 sm:flex-row sm:gap-2">
+        <label className="block flex-1">
+          <span className="sr-only">Email</span>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder="you@email.com"
+            autoComplete="email"
+            className="w-full rounded-pill border border-ink/15 bg-paper px-5 py-4 font-body text-[15px] text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-lime/40"
+          />
+        </label>
+        <label className="block sm:w-[40%]">
+          <span className="sr-only">Shipping country</span>
+          <select
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            required
+            className="w-full appearance-none rounded-pill border border-ink/15 bg-paper px-5 py-4 font-body text-[15px] text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-lime/40"
+          >
+            <option value="" disabled>Country…</option>
+            {COUNTRIES.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      <div className="mt-3">
+        <CTAPrimary type="submit" fullWidth disabled={submitting} ariaLabel="Reserve VIP unit for $1 deposit">
+          {submitting ? "Reserving…" : `Reserve VIP — $${PRICING.vipDeposit} deposit →`}
+        </CTAPrimary>
+      </div>
+
+      {error && (
+        <div role="alert" className="mono-caps mt-3 text-[#B43A3A]">{error}</div>
+      )}
+      {notice && (
+        <div role="status" className="mt-3 rounded-card bg-paperShadow px-4 py-3 font-body text-[14px] text-ink">
+          {notice}
+        </div>
+      )}
+
+      <p className="mono-caps mt-3 text-inkMuted">
+        ${PRICING.vipDeposit} holds your spot · ${PRICING.vipRemainder} on Kickstarter launch · Refundable any time
+      </p>
+    </form>
   );
 }
 

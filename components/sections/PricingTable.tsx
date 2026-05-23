@@ -36,7 +36,7 @@ const tiers: Tier[] = [
     ctaKind: "primary",
     available: true,
     highlighted: true,
-    ribbon: "Most Popular",
+    ribbon: `${PRICING.vipLimit - PRICING.vipClaimed} of ${PRICING.vipLimit} left`,
   },
   {
     name: "Kickstarter Early Bird",
@@ -100,7 +100,7 @@ function TierCard({
         </div>
       )}
 
-      <div className="mono-caps text-inkMuted">{tier.name}</div>
+      <div className="mono-caps font-600 text-ink">{tier.name}</div>
       <div className="mt-3 flex items-baseline gap-2">
         <span className="font-display text-[52px] font-700 leading-none tracking-tight text-ink md:text-[56px]">
           ${tier.price}
@@ -150,7 +150,7 @@ export default function PricingTable({ onReserveClick }: Props) {
   ];
 
   return (
-    <SectionShell id="pricing">
+    <SectionShell id="pricing" spacing="spacious">
       <motion.header
         initial={reduced ? { opacity: 1 } : { opacity: 1, y: 12 }}
         whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -161,7 +161,7 @@ export default function PricingTable({ onReserveClick }: Props) {
         <EyebrowLabel className="mb-5 justify-center">PRICING</EyebrowLabel>
         <h2 className="font-display text-display-xl font-700 text-ink">
           {/* COPY: directional, owner=Sandy */}
-          Three ways in.
+          Three ways to lock your unit.
         </h2>
         <p className="mt-5 font-body text-[17px] leading-[1.6] text-inkMuted">
           {/* COPY: directional, owner=Sandy */}

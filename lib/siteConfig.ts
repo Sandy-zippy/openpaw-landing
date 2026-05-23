@@ -30,15 +30,23 @@ export const EVENTS_WEBHOOK_URL = process.env.NEXT_PUBLIC_EVENTS_WEBHOOK_URL ?? 
 
 // Pricing — locked May 22, 2026 pivot. Deposit hard-dropped from $5 → $1.
 export const PRICING = {
-  vipEarlyBird: 189,
+  vipEarlyBird: 199,
   vipDeposit: 1,
-  vipRemainder: 188,
+  vipRemainder: 198,
   vipLimit: 500,
   vipClaimed: 247, // TODO Sandy: wire live count via API or daily snapshot
   kickstarterEarlyBird: 250,
   kickstarterLimit: 2000,
   retail: 399,
 } as const;
+
+// Shipping country list, shared between Hero reservation form and VIPGate.
+export const COUNTRIES = [
+  "United States", "Canada", "United Kingdom", "Germany", "France", "Netherlands",
+  "Spain", "Italy", "Sweden", "Norway", "Denmark", "Finland", "Switzerland",
+  "Australia", "New Zealand", "Japan", "Singapore", "Hong Kong", "South Korea",
+  "United Arab Emirates", "India", "Brazil", "Mexico", "Other",
+] as const;
 
 // Roadmap milestones — single source for Section 6
 export const ROADMAP = [

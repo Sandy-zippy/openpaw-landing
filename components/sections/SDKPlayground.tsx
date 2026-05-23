@@ -22,7 +22,7 @@ const code: Tok[][] = [
   [{ v: "        bot.eyes_blink(pattern=" }, { v: '"warm_wave"', c: "str" }, { v: ")" }],
   [{ v: "        bot.say(" }, { v: '"hi, i\'m here"', c: "str" }, { v: ", voice=" }, { v: '"warm"', c: "str" }, { v: ")" }],
   [{ v: "    " }, { v: "else", c: "kw" }, { v: ":" }],
-  [{ v: "        bot.tilt_head()" }],
+  [{ v: "        bot.eyes_pattern(" }, { v: '"curious"', c: "str" }, { v: ")" }],
   [{ v: "" }],
   [{ v: "bot.run()" }],
 ];

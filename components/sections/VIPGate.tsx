@@ -5,16 +5,8 @@ import { motion, useInView } from "framer-motion";
 import SectionShell from "@/components/primitives/SectionShell";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import CTAPrimary from "@/components/primitives/CTAPrimary";
-import { PRICING, siteConfig, STRIPE_PAYMENT_LINK } from "@/lib/siteConfig";
-import { generateEventId, readFbp, readFbc, readUtm } from "@/lib/eventId";
-import { trackLead } from "@/components/Tracking";
-
-const COUNTRIES = [
-  "United States", "Canada", "United Kingdom", "Germany", "France", "Netherlands",
-  "Spain", "Italy", "Sweden", "Norway", "Denmark", "Finland", "Switzerland",
-  "Australia", "New Zealand", "Japan", "Singapore", "Hong Kong", "South Korea",
-  "United Arab Emirates", "India", "Brazil", "Mexico", "Other",
-];
+import { COUNTRIES, PRICING } from "@/lib/siteConfig";
+import { useReservation } from "@/lib/useReservation";
 
 type Micro = { quote: string; name: string; city: string };
 
@@ -111,71 +103,20 @@ export default function VIPGate() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const { submit } = useReservation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setNotice(null);
-
-    if (!email || !country) {
-      setError("Add your email and country to continue.");
-      return;
-    }
-
     setSubmitting(true);
 
-    const eventId = generateEventId("Lead");
-    const fbp = readFbp();
-    const fbc = readFbc();
-    const utm = readUtm();
+    const result = await submit({ email, country, stage: "lp_vip_gate" });
 
-    const payload = {
-      event_name: "Lead",
-      event_id: eventId,
-      email,
-      country,
-      stage: "lp_vip_gate",
-      source: siteConfig.domain,
-      page_url: typeof window !== "undefined" ? window.location.href : "",
-      referrer: typeof document !== "undefined" ? document.referrer : "",
-      user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "",
-      fbp,
-      fbc,
-      ...utm,
-      timestamp: new Date().toISOString(),
-    };
-
-    try {
-      localStorage.setItem("openpaw_user", JSON.stringify({
-        email, country, lead_event_id: eventId, ts: Date.now(),
-      }));
-    } catch {}
-
-    trackLead({ email, eventID: eventId });
-
-    if (siteConfig.tracking.eventsWebhookUrl) {
-      try {
-        await fetch(siteConfig.tracking.eventsWebhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-          keepalive: true,
-        });
-      } catch {
-        // Non-blocking — checkout is the priority
-      }
-    }
-
-    if (STRIPE_PAYMENT_LINK) {
-      const url = new URL(STRIPE_PAYMENT_LINK);
-      url.searchParams.set("prefilled_email", email);
-      url.searchParams.set("client_reference_id", `openpaw_${Date.now()}`);
-      window.location.href = url.toString();
-      return;
-    }
-
+    if (result.status === "redirecting") return;
     setSubmitting(false);
-    setNotice("VIP signup opening soon. We saved your email — we'll be in touch with checkout the moment it's live.");
+    if (result.status === "error") setError(result.message);
+    else setNotice(result.message);
   };
 
   return (
