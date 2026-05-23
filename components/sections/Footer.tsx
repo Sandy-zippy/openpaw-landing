@@ -3,10 +3,7 @@
 import { useState } from "react";
 import OpenPawWordmark from "@/components/primitives/OpenPawWordmark";
 import {
-  REPO_URL,
-  DISCORD_URL,
   FORUM_URL,
-  HACKSTER_URL,
   TWITTER_URL,
   INSTAGRAM_URL,
   KICKSTARTER_URL,
@@ -32,10 +29,9 @@ const columns: Col[] = [
   {
     title: "Build",
     links: [
-      { label: "GitHub", href: REPO_URL, external: true },
-      { label: "Discord", href: DISCORD_URL, external: true },
+      // GitHub + Discord + Hackster restored once the public repo + community
+      // channels are live.
       { label: "Forum", href: FORUM_URL, external: true },
-      { label: "Hackster page", href: HACKSTER_URL, external: true },
     ],
   },
   {

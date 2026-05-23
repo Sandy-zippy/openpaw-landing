@@ -19,11 +19,14 @@ const inter = Inter({
   display: "swap",
 });
 
+// Mono is only used in small chip/label widgets — skip the auto-preload so we
+// don't ship 100KB of font for first paint that doesn't need it.
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-  weight: ["400", "500", "600"],
+  weight: ["500", "600"],
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {

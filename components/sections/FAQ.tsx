@@ -77,8 +77,8 @@ const items: QA[] = [
     a: (
       <>
         {/* COPY: directional, owner=Sandy */}
-        Final assembly in [TBD]. PCB by JLCPCB ([TBD]). Both partners locked
-        before we open the campaign.
+        Designed in Hyderabad. Final assembly partner + PCB fab named at
+        Kickstarter launch — both locked before we open the campaign.
       </>
     ),
   },

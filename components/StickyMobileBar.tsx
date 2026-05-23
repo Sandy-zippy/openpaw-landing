@@ -20,13 +20,13 @@ export default function StickyMobileBar() {
       role="region"
       aria-label="Sticky reserve bar"
       aria-hidden={!visible}
-      className={`fixed inset-x-3 bottom-3 z-50 transition-all duration-300 md:hidden ${
+      className={`fixed bottom-3 z-50 transition-all duration-300 inset-x-3 md:inset-x-auto md:right-6 md:bottom-6 ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >
       <a
         href="#vip"
-        className="flex items-center justify-between rounded-pill bg-ink px-5 py-3 text-paper shadow-cardHover"
+        className="flex items-center justify-between gap-4 rounded-pill bg-ink px-5 py-3 text-paper shadow-cardHover md:gap-5"
       >
         <div className="flex items-center gap-3">
           <span className="grid h-7 w-7 place-items-center rounded-full bg-lime text-ink">

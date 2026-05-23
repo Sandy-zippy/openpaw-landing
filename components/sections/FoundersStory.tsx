@@ -58,7 +58,6 @@ const founders: Founder[] = [
       "Growth + strategy. ZippyScale + Crowd Launches. Wired the funnel, makes sure the open-source story actually ships.",
     photo: "founder-sandy.jpg",
     twitter: "https://twitter.com/openpaw",
-    github: "https://github.com/openpaw",
   },
   {
     name: "Ashok Jaiswal",
@@ -67,7 +66,6 @@ const founders: Founder[] = [
       "Hardware + firmware. Builds the thing on the desk. Three months, three prototypes, one breaking point.",
     photo: "founder-ashok.jpg",
     twitter: "https://twitter.com/openpaw",
-    github: "https://github.com/openpaw",
   },
   {
     name: "Prithu Hazarika",
@@ -76,7 +74,6 @@ const founders: Founder[] = [
       "Owns the product surface and the industrial design. Why every curve has a reason.",
     photo: "founder-prithu.jpg",
     twitter: "https://twitter.com/prithuhazarika",
-    github: "https://github.com/openpaw",
   },
 ];
 

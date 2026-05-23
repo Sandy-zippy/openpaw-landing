@@ -17,6 +17,28 @@ export type ReservationResult =
   | { status: "saved"; message: string }
   | { status: "error"; message: string };
 
+// Lightweight cross-section draft so the Hero form can prefill VIPGate when
+// Stripe isn't wired up yet (or any time the user submits Hero then scrolls
+// down). Stored in sessionStorage so it clears on tab close.
+const DRAFT_KEY = "openpaw_draft";
+
+export type ReservationDraft = { email: string; country: string };
+
+export const reservationDraft = {
+  save(d: ReservationDraft) {
+    try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch {}
+  },
+  read(): ReservationDraft | null {
+    try {
+      const raw = sessionStorage.getItem(DRAFT_KEY);
+      return raw ? (JSON.parse(raw) as ReservationDraft) : null;
+    } catch { return null; }
+  },
+  clear() {
+    try { sessionStorage.removeItem(DRAFT_KEY); } catch {}
+  },
+};
+
 export function useReservation() {
   async function submit({ email, country, stage }: ReservationInput): Promise<ReservationResult> {
     if (!email || !country) {

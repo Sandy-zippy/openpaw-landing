@@ -205,17 +205,12 @@ export default function SDKPlayground() {
                 reduced ? "" : "sdk-float"
               }`}
             >
-              {/* Behavior loop video — auto-plays, loops, mutes for mobile. Falls
-                  back to the still poster image if video can't load. */}
-              <video
-                src={withBase("/assets/generated/sdk-behavior-loop.mp4")}
-                poster={withBase("/assets/generated/sdk-demo.png")}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                aria-label="OpenPaw robot performing a greeting behavior"
+              {/* Still image only — sdk-behavior-loop.mp4 showed a head-tilt
+                  motion the real robot can't do. Re-introduce once we have
+                  a Seedance regen that honors the form-factor lock. */}
+              <img
+                src={withBase("/assets/generated/sdk-demo.png")}
+                alt="OpenPaw robot on a desk beside a laptop running the Python SDK"
                 className="h-full w-full select-none object-cover"
               />
             </div>

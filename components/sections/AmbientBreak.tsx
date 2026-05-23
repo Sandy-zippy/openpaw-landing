@@ -19,33 +19,28 @@ export default function AmbientBreak() {
       className="relative bg-ink"
     >
       <div className="relative mx-auto w-full max-w-shell overflow-hidden md:rounded-card">
-        <div className="relative aspect-[16/9] w-full overflow-hidden">
-          {/* Background video — autoplay, loop, muted */}
-          <video
-            src={withBase("/assets/generated/ambient-mood.mp4")}
-            poster={withBase("/assets/generated/gallery-eye-detail.png")}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
+        {/* Mobile gets a taller crop (4:3) so the headline has room above the
+            video; desktop stays cinematic 16:9. */}
+        <div className="relative aspect-[4/3] w-full overflow-hidden md:aspect-[16/9]">
+          {/* Still image only — ambient-mood.mp4 showed head motion the real
+              robot can't do. Re-introduce once we have a Seedance regen. */}
+          <img
+            src={withBase("/assets/generated/gallery-eye-detail.png")}
+            alt=""
             aria-hidden="true"
             className="absolute inset-0 h-full w-full select-none object-cover"
           />
 
-          {/* Bottom-to-top gradient so the headline reads cleanly — kept light
-              enough that the video stays visible through it. */}
+          {/* Bottom-to-top gradient. Heavier on mobile so the headline survives
+              against the bright LED-eye macro; lighter on desktop where the
+              16:9 crop gives the text its own real estate. */}
           <div
             aria-hidden="true"
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(14,30,46,0) 20%, rgba(14,30,46,0.25) 60%, rgba(14,30,46,0.45) 100%)",
-            }}
+            className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/30 to-ink/0 md:from-ink/45 md:via-ink/15"
           />
 
           {/* Foreground content */}
-          <div className="relative z-10 flex h-full w-full flex-col items-start justify-end px-6 pb-10 md:px-12 md:pb-16">
+          <div className="relative z-10 flex h-full w-full flex-col items-start justify-end px-6 pb-8 md:px-12 md:pb-16">
             <motion.div
               initial={reduced ? { opacity: 1 } : { opacity: 1, y: 14 }}
               whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}

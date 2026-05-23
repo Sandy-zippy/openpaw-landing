@@ -13,23 +13,33 @@ type Callout = {
   side: "left" | "right";
 };
 
+// Callout endpoints are computed in CalloutLine as (c.x ± 70, c.y) depending
+// on side. To land the dot at silhouette point (X, Y): set c.x = X + 70 for
+// "left", X - 70 for "right". Coordinates below target real anatomy on the
+// fused-head rectangular silhouette (head 295-505 × 140-310; body 320-480 ×
+// 310-485; LLM panel 360-440 × 395-435).
 const callouts: Callout[] = [
-  { id: "cam", label: "1080p wide-FOV camera", detail: "Front-mounted CSI camera, 1080p @ 60fps, 110° wide field of view.", x: 400, y: 230, side: "left" },
-  { id: "mics", label: "4-mic array", detail: "Top-mounted beamforming array for directional voice + ambient capture.", x: 400, y: 160, side: "right" },
-  { id: "speaker", label: "Full-range speaker", detail: "Chest-mounted 28mm full-range driver. Tuned for voice + soft chimes.", x: 400, y: 340, side: "left" },
-  { id: "temp", label: "Temp + ambient light", detail: "Combined I²C sensor — feeds room context to behavior policies.", x: 510, y: 280, side: "right" },
-  { id: "imu", label: "6-axis IMU", detail: "Accel + gyro on the body PCB. Detects tip, lift, and motion.", x: 510, y: 330, side: "right" },
-  { id: "servos", label: "6-DOF expressive body", detail: "Six servos drive body sway, lean, and tilt — head is fixed to the chassis. Sub-1° resolution. All driver code open.", x: 290, y: 360, side: "left" },
-  { id: "edge", label: "Edge LLM compute", detail: "Gemma-3-class on-device LLM, 4B params quantized to INT4 (exact chip TBD).", x: 410, y: 410, side: "left" },
-  { id: "ports", label: "USB-C + micro-HDMI debug", detail: "Power, flash, and serial console — no hidden test pads.", x: 510, y: 430, side: "right" },
-  { id: "shell", label: "3D-printable shell", detail: "PETG / PLA shells. STL provided for every external panel.", x: 290, y: 460, side: "left" },
-  { id: "battery", label: "Battery + USB-C charging", detail: "Internal Li-ion + USB-C PD charging. Hot-swap planned for v2.", x: 510, y: 490, side: "right" },
+  { id: "cam",     label: "1080p wide-FOV camera",     detail: "Front-mounted CSI camera, 1080p @ 60fps, 110° wide field of view.",       x: 470, y: 250, side: "left"  },
+  { id: "mics",    label: "4-mic array",                detail: "Top-mounted beamforming array for directional voice + ambient capture.",  x: 330, y: 150, side: "right" },
+  { id: "servos",  label: "6-DOF expressive body",      detail: "Six servos drive body sway, lean, and tilt — head is fixed to the chassis. Sub-1° resolution. All driver code open.", x: 390, y: 320, side: "left"  },
+  { id: "temp",    label: "Temp + ambient light",       detail: "Combined I²C sensor — feeds room context to behavior policies.",          x: 410, y: 340, side: "right" },
+  { id: "speaker", label: "Full-range speaker",         detail: "Chest-mounted 28mm full-range driver. Tuned for voice + soft chimes.",    x: 470, y: 355, side: "left"  },
+  { id: "imu",     label: "6-axis IMU",                 detail: "Accel + gyro on the body PCB. Detects tip, lift, and motion.",           x: 410, y: 395, side: "right" },
+  { id: "edge",    label: "Edge LLM compute",           detail: "Gemma-3-class on-device LLM, 4B params quantized to INT4. Runs locally — no cloud round-trip.", x: 470, y: 415, side: "left"  },
+  { id: "ports",   label: "USB-C + micro-HDMI debug",   detail: "Power, flash, and serial console — no hidden test pads.",                 x: 375, y: 458, side: "right" },
+  { id: "shell",   label: "3D-printable shell",         detail: "PETG / PLA shells. STL provided for every external panel.",               x: 390, y: 465, side: "left"  },
+  { id: "battery", label: "Battery + USB-C charging",   detail: "Internal Li-ion + USB-C PD charging. Hot-swap planned for v2.",            x: 410, y: 480, side: "right" },
 ];
 
 // Stylized robot silhouette (centered around x=400, y=300).
 // Form-factor lock: head is a rounded rectangle fused to the body — NO neck,
 // NO independent head motion. Eyes are matrix-LED rectangles, not circles.
-function RobotSilhouette() {
+//
+// `dotR` scales the matrix-LED eye dots — desktop renders inside a wide
+// (-220 to 1020) viewBox so 1.8 reads as fine detail; mobile crops to the
+// silhouette only (200-600) so the same radius collapses visually. Pass a
+// larger r on mobile to keep the matrix reading.
+function RobotSilhouette({ dotR = 1.8 }: { dotR?: number }) {
   return (
     <g>
       {/* Antenna */}
@@ -47,23 +57,23 @@ function RobotSilhouette() {
       <rect x="413" y="200" width="54" height="34" rx="4" fill="#1A1B1F" />
       <g fill="#04DA8D">
         {/* Left eye dot pattern */}
-        <circle cx="346" cy="212" r="1.8" />
-        <circle cx="356" cy="212" r="1.8" />
-        <circle cx="366" cy="212" r="1.8" />
-        <circle cx="376" cy="212" r="1.8" />
-        <circle cx="346" cy="222" r="1.8" />
-        <circle cx="356" cy="222" r="1.8" />
-        <circle cx="366" cy="222" r="1.8" />
-        <circle cx="376" cy="222" r="1.8" />
+        <circle cx="346" cy="212" r={dotR} />
+        <circle cx="356" cy="212" r={dotR} />
+        <circle cx="366" cy="212" r={dotR} />
+        <circle cx="376" cy="212" r={dotR} />
+        <circle cx="346" cy="222" r={dotR} />
+        <circle cx="356" cy="222" r={dotR} />
+        <circle cx="366" cy="222" r={dotR} />
+        <circle cx="376" cy="222" r={dotR} />
         {/* Right eye dot pattern */}
-        <circle cx="426" cy="212" r="1.8" />
-        <circle cx="436" cy="212" r="1.8" />
-        <circle cx="446" cy="212" r="1.8" />
-        <circle cx="456" cy="212" r="1.8" />
-        <circle cx="426" cy="222" r="1.8" />
-        <circle cx="436" cy="222" r="1.8" />
-        <circle cx="446" cy="222" r="1.8" />
-        <circle cx="456" cy="222" r="1.8" />
+        <circle cx="426" cy="212" r={dotR} />
+        <circle cx="436" cy="212" r={dotR} />
+        <circle cx="446" cy="212" r={dotR} />
+        <circle cx="456" cy="212" r={dotR} />
+        <circle cx="426" cy="222" r={dotR} />
+        <circle cx="436" cy="222" r={dotR} />
+        <circle cx="446" cy="222" r={dotR} />
+        <circle cx="456" cy="222" r={dotR} />
       </g>
       {/* Body — flush against head, no neck gap */}
       <rect x="320" y="310" width="160" height="175" rx="22" fill="#E8E2D2" stroke="#1A1B1F" strokeWidth="1.5" />
@@ -191,7 +201,9 @@ export default function SensorMap() {
           role="img"
           aria-label="OpenPaw silhouette"
         >
-          <RobotSilhouette />
+          {/* Larger dot radius keeps the matrix-LED eyes from collapsing into
+              blobs at the cropped mobile viewBox. */}
+          <RobotSilhouette dotR={3} />
         </svg>
         <div className="mt-8 divide-y divide-ink/10 border-y border-ink/10">
           {callouts.map((c) => (
@@ -200,15 +212,6 @@ export default function SensorMap() {
         </div>
       </div>
 
-      {/* Chip strip */}
-      <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-        <span className="mono-caps text-inkMuted">Powered by</span>
-        {/* COPY: directional, owner=Sandy */}
-        {/* TODO: only ship logos we can legitimately claim by launch */}
-        {["[CHIP VENDOR TBD]", "JLCPCB", "OSHWA"].map((s) => (
-          <span key={s} className="mono-caps text-ink opacity-50">{s}</span>
-        ))}
-      </div>
     </SectionShell>
   );
 }

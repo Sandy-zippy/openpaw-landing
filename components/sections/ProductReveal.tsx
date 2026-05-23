@@ -4,7 +4,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import SectionShell from "@/components/primitives/SectionShell";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import PlaceholderImage from "@/components/primitives/PlaceholderImage";
-import { REPO_URL } from "@/lib/siteConfig";
 import { withBase } from "@/lib/withBase";
 
 type GalleryItem = { label: string; caption: string; image?: string };
@@ -13,7 +12,7 @@ const gallery: GalleryItem[] = [
   { label: "Three-quarter render — matrix-LED eyes", caption: "01 / Front", image: "generated/silhouette-glow.png" },
   { label: "Workbench build — partial assembly", caption: "02 / Build", image: "generated/workbench-build.png" },
   { label: "PCB + chassis detail", caption: "03 / Detail", image: "generated/circuit-detail.png" },
-  { label: "Top-down — mic + sensor array", caption: "04 / Top", image: "generated/gallery-top.png" },
+  { label: "Desk scale — beside a ceramic mug", caption: "04 / Scale", image: "generated/gallery-scale.png" },
 ];
 
 type Stat = { value: string; unit?: string; label: string; small?: string };
@@ -84,11 +83,14 @@ export default function ProductReveal() {
             published hardware platform (BOM, STEP files, PCB schematics, firmware
             source) you can fork, mod, and reprint.
           </p>
-          <ul className="mt-6 space-y-2 border-l-2 border-lime pl-4">
-            <li className="mono-caps text-ink">MIT firmware</li>
-            <li className="mono-caps text-ink">CERN-OHL-S hardware</li>
-            <li className="mono-caps text-ink">ESP32-S3 · on-device LLM</li>
-          </ul>
+          <div className="mt-6 rounded-card border border-ink/8 bg-paper p-5 shadow-card">
+            <div className="mono-caps text-[10px] tracking-[0.18em] text-inkMuted">Specs at a glance</div>
+            <ul className="mt-3 space-y-2">
+              <li className="mono-caps text-ink">MIT firmware</li>
+              <li className="mono-caps text-ink">CERN-OHL-S hardware</li>
+              <li className="mono-caps text-ink">ESP32-S3 · on-device LLM</li>
+            </ul>
+          </div>
         </motion.div>
       </div>
 
@@ -101,7 +103,7 @@ export default function ProductReveal() {
             whileInView={reduced ? { opacity: 1 } : { opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "0px 0px -5% 0px" }}
             transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-            className="min-w-[78%] flex-shrink-0 sm:min-w-[58%] md:min-w-[42%] lg:min-w-[34%]"
+            className="min-w-[78vw] flex-shrink-0 sm:min-w-[58vw] md:min-w-[42%] lg:min-w-[34%]"
           >
             {item.image ? (
               <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-card border border-ink/8 bg-paperShadow">
@@ -139,16 +141,15 @@ export default function ProductReveal() {
         ))}
       </div>
 
-      {/* Link strip */}
+      {/* Link strip — BOM + STEP files release publicly with the Kickstarter
+          launch. Until then, point users to the VIP signup so we can email
+          them when the downloads are live. */}
       <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-ink/10 pt-6">
-        <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="mono-caps text-ink transition-colors hover:text-ink/60">
-          Download BOM →
+        <a href="#vip" className="mono-caps text-ink transition-colors hover:text-ink/60">
+          Get notified when BOM drops →
         </a>
-        <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="mono-caps text-ink transition-colors hover:text-ink/60">
-          Download STEP files →
-        </a>
-        <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="mono-caps text-ink transition-colors hover:text-ink/60">
-          GitHub repo →
+        <a href="#vip" className="mono-caps text-ink transition-colors hover:text-ink/60">
+          Get notified when STEP files drop →
         </a>
       </div>
     </SectionShell>

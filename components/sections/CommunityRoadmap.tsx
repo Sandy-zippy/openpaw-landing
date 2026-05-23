@@ -2,7 +2,7 @@
 
 import SectionShell from "@/components/primitives/SectionShell";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
-import { ROADMAP, DISCORD_URL, REPO_URL, FORUM_URL } from "@/lib/siteConfig";
+import { ROADMAP, FORUM_URL } from "@/lib/siteConfig";
 
 function StatusDot({ status, isHere }: { status: "done" | "half" | "todo"; isHere?: boolean }) {
   if (status === "done") {
@@ -57,12 +57,6 @@ function CommunityTile({ label, metric, detail, href, cta, glyph }: CommunityTil
     </a>
   );
 }
-
-const DiscordGlyph = () => (
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M19.27 5.33A17.06 17.06 0 0014.79 4l-.21.46a16.32 16.32 0 014.05 1.27c-.6-.32-1.39-.6-2.18-.83A18.6 18.6 0 0012 4c-1.45 0-2.93.16-4.46.9-.79.23-1.58.51-2.18.83a16.32 16.32 0 014.05-1.27L9.2 4a17.06 17.06 0 00-4.48 1.33C2.4 8.7 1.78 11.95 2.08 15.15c1.79 1.32 3.52 2.13 5.23 2.65l.4-.55c-.95-.32-1.86-.79-2.72-1.42 0 0 .19.14.21.16a12.93 12.93 0 0011.6 0c.02-.02.21-.16.21-.16a9.96 9.96 0 01-2.72 1.42l.4.55c1.71-.52 3.44-1.33 5.23-2.65.36-3.83-.67-7.05-2.65-9.82zM8.52 13.5c-.85 0-1.55-.78-1.55-1.74s.69-1.74 1.55-1.74c.85 0 1.55.78 1.55 1.74s-.69 1.74-1.55 1.74zm6.96 0c-.85 0-1.55-.78-1.55-1.74s.69-1.74 1.55-1.74c.85 0 1.55.78 1.55 1.74s-.7 1.74-1.55 1.74z" />
-  </svg>
-);
 
 const GithubGlyph = () => (
   <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -121,22 +115,16 @@ export default function CommunityRoadmap() {
           ))}
         </ol>
 
-        {/* Community tiles */}
+        {/* Community tiles — Discord tile pulled until we can plug a real live
+            count. GitHub tile points to the VIP form since the repo doesn't
+            exist publicly yet. */}
         <div className="grid grid-cols-1 gap-4">
-          <CommunityTile
-            label="Discord"
-            metric="1,240"
-            detail="builders shipping behaviors together · TODO live count"
-            href={DISCORD_URL}
-            cta="Join Discord"
-            glyph={<DiscordGlyph />}
-          />
           <CommunityTile
             label="GitHub"
             metric="June '26"
             detail="repo opens with SDK public beta"
-            href={REPO_URL}
-            cta="Watch repo"
+            href="#vip"
+            cta="Get notified"
             glyph={<GithubGlyph />}
           />
           <CommunityTile

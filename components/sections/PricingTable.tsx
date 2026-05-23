@@ -29,7 +29,7 @@ const tiers: Tier[] = [
       `Saves $${PRICING.retail - PRICING.vipEarlyBird} vs retail`,
       `${PRICING.vipLimit} units only`,
       `$${PRICING.vipRemainder} due on Kickstarter launch`,
-      "Discord founders-channel access",
+      "Private founders channel access",
       `Limited to first ${PRICING.vipLimit}`,
     ],
     cta: `Reserve VIP — $${PRICING.vipDeposit}`,
@@ -100,7 +100,12 @@ function TierCard({
         </div>
       )}
 
-      <div className="mono-caps font-600 text-ink">{tier.name}</div>
+      <div className="mono-caps text-[12px] font-700 tracking-[0.18em] text-ink">
+        {tier.name}
+        {tier.highlighted && (
+          <span aria-hidden="true" className="ml-2 inline-block h-[6px] w-[24px] translate-y-[-2px] rounded-sm bg-lime align-middle" />
+        )}
+      </div>
       <div className="mt-3 flex items-baseline gap-2">
         <span className="font-display text-[52px] font-700 leading-none tracking-tight text-ink md:text-[56px]">
           ${tier.price}
@@ -189,7 +194,7 @@ export default function PricingTable({ onReserveClick }: Props) {
       <div className="mt-14 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center">
         <span className="mono-caps text-inkMuted">Built by Ayva Labs</span>
         <span className="hidden h-3 w-px bg-ink/15 md:inline-block" />
-        <span className="mono-caps text-inkMuted">Manufactured by [TBD partner]</span>
+        <span className="mono-caps text-inkMuted">Manufactured in India</span>
         <span className="hidden h-3 w-px bg-ink/15 md:inline-block" />
         <span className="mono-caps text-inkMuted">Refund anytime before tooling starts</span>
       </div>

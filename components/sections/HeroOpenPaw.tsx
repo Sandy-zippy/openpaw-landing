@@ -3,11 +3,10 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import CTAPrimary from "@/components/primitives/CTAPrimary";
-import CTAGhost from "@/components/primitives/CTAGhost";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import OpenPawWordmark from "@/components/primitives/OpenPawWordmark";
-import { COUNTRIES, PRICING, PROJECT_NAME, REPO_URL, SHIP_DATE } from "@/lib/siteConfig";
-import { useReservation } from "@/lib/useReservation";
+import { COUNTRIES, PRICING, PROJECT_NAME, SHIP_DATE } from "@/lib/siteConfig";
+import { reservationDraft, useReservation } from "@/lib/useReservation";
 import { withBase } from "@/lib/withBase";
 
 type Props = {
@@ -28,7 +27,8 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
 
   return (
     <section className="relative overflow-hidden bg-paper">
-      {/* Top utility row: wordmark + nav + github link */}
+      {/* Top utility row: wordmark + desktop nav / mobile hamburger.
+          GitHub link is hidden until the public repo is live. */}
       <div className="mx-auto flex w-full max-w-shell items-center justify-between px-6 pt-8 md:px-10 md:pt-10">
         <OpenPawWordmark size="md" />
         <nav className="hidden items-center gap-7 md:flex">
@@ -38,14 +38,8 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
           <a href="#pricing" className="mono-caps text-inkMuted transition-colors hover:text-ink">Pricing</a>
           <a href="#faq" className="mono-caps text-inkMuted transition-colors hover:text-ink">FAQ</a>
         </nav>
-        <a
-          href={REPO_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mono-caps hidden text-inkMuted transition-colors hover:text-ink md:block"
-        >
-          GitHub →
-        </a>
+        <MobileNavToggle />
+        <span aria-hidden="true" className="hidden md:block" />
       </div>
 
       <div className="relative mx-auto w-full max-w-shell px-6 pb-14 pt-12 md:px-10 md:pb-28 md:pt-24">
@@ -81,23 +75,6 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
               <HeroReservationForm onFallbackScroll={onReserveClick} />
             </motion.div>
 
-            <motion.div
-              {...appear(0.36)}
-              className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
-            >
-              <CTAGhost href={REPO_URL} external>
-                View on GitHub
-              </CTAGhost>
-            </motion.div>
-
-            <motion.div
-              {...appear(0.4)}
-              className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2"
-            >
-              <span className="mono-caps text-inkMuted">Backed by</span>
-              {/* COPY: directional, owner=Sandy */}
-              <PartnerRow />
-            </motion.div>
           </div>
 
           {/* Right — product stage with halo, orbit ring, status chip */}
@@ -145,7 +122,6 @@ export default function HeroOpenPaw({ onReserveClick }: Props) {
  * ship a broken element.
  */
 function ProductStage({ reduceMotion }: { reduceMotion: boolean }) {
-  const [videoFailed, setVideoFailed] = useState(false);
 
   return (
     <motion.div
@@ -218,23 +194,9 @@ function ProductStage({ reduceMotion }: { reduceMotion: boolean }) {
           alt="OpenPaw — three-quarter render with teal LED eyes"
           className="relative z-10 mx-auto h-auto w-[78vw] max-w-[360px] select-none drop-shadow-[0_24px_48px_rgba(14,30,46,0.18)] md:w-full md:max-w-[520px]"
         />
-
-        {/* Optional video overlay — if hero-loop.mp4 exists it plays on top of
-            the still; if it 404s we hide it and the still remains. */}
-        {!videoFailed && (
-          <video
-            aria-hidden="true"
-            muted
-            loop
-            playsInline
-            autoPlay
-            preload="none"
-            onError={() => setVideoFailed(true)}
-            className="pointer-events-none absolute inset-0 z-20 h-full w-full object-contain mix-blend-multiply"
-          >
-            <source src={withBase("/assets/generated/hero-loop.mp4")} type="video/mp4" />
-          </video>
-        )}
+        {/* hero-loop.mp4 was pulled — the Higgsfield render showed motion the
+            real robot can't do (head tilt) and the mix-blend overlay was
+            visibly buggy. Bring it back only after Seedance regen is approved. */}
       </motion.div>
 
       {/* Live status chip — overlays top-right of product */}
@@ -292,8 +254,10 @@ function HeroReservationForm({ onFallbackScroll }: { onFallbackScroll: () => voi
     if (result.status === "error") {
       setError(result.message);
     } else {
+      // Stripe isn't live — stash the draft so VIPGate can prefill + show a
+      // confirmation banner instead of making the user retype.
+      reservationDraft.save({ email, country });
       setNotice(result.message);
-      // Surface the full VIP section so the user sees the spot counter + receipt.
       onFallbackScroll();
     }
   };
@@ -351,15 +315,91 @@ function HeroReservationForm({ onFallbackScroll }: { onFallbackScroll: () => voi
   );
 }
 
-function PartnerRow() {
-  // {/* COPY: directional, owner=Sandy */}
-  // TODO: replace placeholder strings with verified partner SVGs (40% opacity)
-  const partners = ["HACKADAY", "HACKSTER", "OSHWA", "JLCPCB"];
+const NAV_LINKS: Array<{ label: string; href: string }> = [
+  { label: "Hardware", href: "#hardware" },
+  { label: "SDK", href: "#sdk" },
+  { label: "Roadmap", href: "#roadmap" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "FAQ", href: "#faq" },
+];
+
+function MobileNavToggle() {
+  const [open, setOpen] = useState(false);
+
+  // Lock body scroll while the drawer is open.
+  if (typeof document !== "undefined") {
+    // Effect runs every render; cheap and predictable for a sub-1KB widget.
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+
   return (
-    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 opacity-40">
-      {partners.map((p) => (
-        <span key={p} className="mono-caps text-ink">{p}</span>
-      ))}
+    <div className="md:hidden">
+      <button
+        type="button"
+        aria-label={open ? "Close navigation" : "Open navigation"}
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-ink/5"
+      >
+        {open ? (
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+            <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {open && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[60] flex flex-col bg-paper"
+          onClick={(e) => {
+            // Close when the user taps outside the inner panel (anchor links also close).
+            if (e.target === e.currentTarget) setOpen(false);
+          }}
+        >
+          <div className="flex items-center justify-between px-6 pt-8">
+            <OpenPawWordmark size="md" />
+            <button
+              type="button"
+              aria-label="Close navigation"
+              onClick={() => setOpen(false)}
+              className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-ink/5"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+
+          <nav className="flex flex-1 flex-col justify-center gap-2 px-8">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="font-display text-display-md font-600 text-ink transition-colors hover:text-lime"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="px-8 pb-10">
+            <a
+              href="#vip"
+              onClick={() => setOpen(false)}
+              className="mono-caps text-inkMuted underline-offset-4 hover:underline"
+            >
+              Reserve VIP — ${PRICING.vipDeposit} →
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

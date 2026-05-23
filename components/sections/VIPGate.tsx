@@ -6,29 +6,7 @@ import SectionShell from "@/components/primitives/SectionShell";
 import EyebrowLabel from "@/components/primitives/EyebrowLabel";
 import CTAPrimary from "@/components/primitives/CTAPrimary";
 import { COUNTRIES, PRICING } from "@/lib/siteConfig";
-import { useReservation } from "@/lib/useReservation";
-
-type Micro = { quote: string; name: string; city: string };
-
-const microTestimonials: Micro[] = [
-  // {/* COPY: directional, owner=Sandy */}
-  // TODO: replace with real VIP-list quotes once VIP gate has real signups
-  {
-    quote: "Finally an open-source AI you can actually hold.",
-    name: "Mira K.",
-    city: "Berlin",
-  },
-  {
-    quote: "Wanted Reachy Mini for my desk. This is exactly that.",
-    name: "Alex T.",
-    city: "Brooklyn",
-  },
-  {
-    quote: "I'll fork it the day the repo opens.",
-    name: "Daiki H.",
-    city: "Tokyo",
-  },
-];
+import { reservationDraft, useReservation } from "@/lib/useReservation";
 
 function VIPCounter({ claimed, total }: { claimed: number; total: number }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -80,19 +58,6 @@ function VIPCounter({ claimed, total }: { claimed: number; total: number }) {
         {total - claimed} spots remaining
       </div>
 
-      <ul className="mt-8 space-y-5 border-t border-ink/10 pt-6">
-        {microTestimonials.map((m) => (
-          <li key={m.name}>
-            <p className="font-display text-[16px] leading-[1.4] text-ink">
-              {/* COPY: directional, owner=Sandy */}
-              &ldquo;{m.quote}&rdquo;
-            </p>
-            <div className="mono-caps mt-2 text-inkMuted">
-              {m.name} · {m.city}
-            </div>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
@@ -103,7 +68,18 @@ export default function VIPGate() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [prefilled, setPrefilled] = useState(false);
   const { submit } = useReservation();
+
+  // Pick up any draft saved by the Hero form so the user doesn't retype.
+  useEffect(() => {
+    const draft = reservationDraft.read();
+    if (draft?.email) {
+      setEmail(draft.email);
+      if (draft.country) setCountry(draft.country);
+      setPrefilled(true);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,10 +89,17 @@ export default function VIPGate() {
 
     const result = await submit({ email, country, stage: "lp_vip_gate" });
 
-    if (result.status === "redirecting") return;
+    if (result.status === "redirecting") {
+      reservationDraft.clear();
+      return;
+    }
     setSubmitting(false);
     if (result.status === "error") setError(result.message);
-    else setNotice(result.message);
+    else {
+      reservationDraft.clear();
+      setPrefilled(false);
+      setNotice(result.message);
+    }
   };
 
   return (
@@ -135,6 +118,15 @@ export default function VIPGate() {
             Kickstarter launch day. Cancel and get every cent back, any time
             before December.
           </p>
+
+          {prefilled && (
+            <div role="status" className="mt-6 flex items-start gap-3 rounded-card border border-lime/40 bg-lime/10 px-4 py-3 font-body text-[14px] text-ink">
+              <span aria-hidden="true" className="mt-[6px] inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-lime" />
+              <span>
+                We saved your email. <span className="font-600">Finish your reservation below</span> — payment opens when Kickstarter goes live July 7.
+              </span>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-4">
             <label className="block">
